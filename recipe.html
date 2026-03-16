@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes - Fresh & Green Halal Market</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* ── PAGE-SPECIFIC ONLY — header/footer from styles.css ── */
+
+        /* ── HERO ── */
+        .recipe-hero {
+            background: linear-gradient(135deg, #0a1f14 0%, #1b4332 55%, #2d6a4f 100%);
+            padding: 4rem 2rem 3.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .recipe-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 60% 0%, rgba(212,160,23,0.08) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .recipe-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4a017, transparent);
+        }
+        .recipe-hero .tag {
+            display: inline-block;
+            background: rgba(212,160,23,0.15);
+            color: #f5d76e;
+            font-size: 0.78rem; font-weight: 700;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            padding: 5px 14px; border-radius: 20px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(212,160,23,0.3);
+            position: relative;
+        }
+        .recipe-hero h1 {
+            color: #fff;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800; margin: 0 0 0.8rem;
+            line-height: 1.1; position: relative;
+        }
+        .recipe-hero p {
+            color: rgba(255,255,255,0.7);
+            font-size: 1.05rem; margin: 0 auto;
+            max-width: 480px; position: relative;
+        }
+
+        /* ── SEARCH BAR ── */
+        .search-section {
+            background: #fff;
+            padding: 2rem;
+            display: flex; flex-direction: column;
+            align-items: center;
+            border-bottom: 1px solid #dde8da;
+            box-shadow: 0 4px 20px rgba(27,67,50,0.04);
+        }
+        .search-box {
+            display: flex; gap: 0;
+            max-width: 600px; width: 100%;
+            border: 2px solid #dde8da;
+            border-radius: 14px; overflow: hidden;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .search-box:focus-within {
+            border-color: #1b4332;
+            box-shadow: 0 0 0 4px rgba(27,67,50,0.08);
+        }
+        .search-box input {
+            flex: 1; padding: 14px 18px;
+            border: none; font-size: 0.97rem;
+            font-family: inherit; outline: none;
+            background: #fff; color: #0f1a0f;
+        }
+        .search-box input::placeholder { color: #aaa; }
+        .search-box button {
+            padding: 0 24px;
+            background: #d4a017; color: #0a1f14;
+            border: none; font-weight: 700; font-size: 0.92rem;
+            cursor: pointer; font-family: inherit;
+            transition: background 0.2s; white-space: nowrap;
+        }
+        .search-box button:hover { background: #1b4332; color: #fff; }
+
+        /* CHIPS */
+        .popular-chips {
+            display: flex; gap: 8px; flex-wrap: wrap;
+            justify-content: center; margin-top: 12px;
+        }
+        .pop-chip {
+            background: #f0f7f4;
+            border: 1.5px solid #c8e6c9;
+            color: #1b4332;
+            font-size: 0.8rem; font-weight: 600;
+            border-radius: 20px; padding: 5px 13px;
+            cursor: pointer; font-family: inherit;
+            transition: all 0.15s;
+        }
+        .pop-chip:hover {
+            background: #d4a017; border-color: #d4a017; color: #0a1f14;
+        }
+
+        /* ── RECIPE GRID ── */
+        .recipes-section {
+            max-width: 1300px; margin: 0 auto;
+            padding: 2.5rem 2rem 4rem;
+        }
+        .recipes-section h2 {
+            font-size: 1.5rem; font-weight: 800;
+            margin-bottom: 1.5rem; color: #0f1a0f;
+        }
+        .recipes-section h2 span { color: #d4a017; }
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* CARD */
+        .recipe-card {
+            background: #fff; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 2px 12px rgba(27,67,50,0.07);
+            border: 1px solid #dde8da;
+            transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s, border-color 0.2s;
+            display: flex; flex-direction: column; cursor: pointer;
+        }
+        .recipe-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 36px rgba(27,67,50,0.14);
+            border-color: #95d5b2;
+        }
+        .recipe-card-img { position: relative; overflow: hidden; }
+        .recipe-card-img img {
+            width: 100%; height: 195px; object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .recipe-card:hover .recipe-card-img img { transform: scale(1.05); }
+        .stock-badge {
+            position: absolute; bottom: 10px; left: 10px;
+            font-size: 0.75rem; font-weight: 700;
+            padding: 4px 10px; border-radius: 20px;
+            backdrop-filter: blur(8px);
+        }
+        .badge-good   { background: rgba(232,245,233,0.95); color: #1b4332; border: 1px solid #a5d6a7; }
+        .badge-medium { background: rgba(253,248,225,0.95); color: #a67c00; border: 1px solid #ffcc80; }
+        .badge-low    { background: rgba(240,247,244,0.95); color: #2d6a4f; border: 1px solid #95d5b2; }
+
+        .recipe-card-body {
+            padding: 1.1rem 1.3rem 1.3rem; flex: 1;
+            display: flex; flex-direction: column;
+        }
+        .recipe-card-body h3 {
+            margin: 0 0 0.7rem; font-size: 1rem;
+            font-weight: 700; line-height: 1.35; color: #0f1a0f;
+        }
+        .recipe-meta { display: flex; gap: 10px; margin-bottom: 0.9rem; flex-wrap: wrap; }
+        .recipe-meta-tag {
+            font-size: 0.73rem; font-weight: 600; color: #4a6741;
+            background: #f0f7f4; padding: 3px 8px; border-radius: 6px;
+        }
+        .view-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            margin-top: auto; background: #1b4332; color: #fff;
+            padding: 9px 16px; border-radius: 10px;
+            font-weight: 700; font-size: 0.84rem;
+            cursor: pointer; border: none; font-family: inherit;
+            transition: background 0.15s, transform 0.15s;
+            align-self: flex-start;
+        }
+        .view-btn:hover { background: #d4a017; color: #0a1f14; transform: scale(1.03); }
+        .view-btn svg { width: 13px; height: 13px; fill: currentColor; }
+
+        /* EMPTY STATE */
+        .empty-state {
+            grid-column: 1 / -1; text-align: center;
+            padding: 4rem 2rem; color: #4a6741;
+        }
+        .empty-state .icon { font-size: 3.5rem; margin-bottom: 1rem; }
+        .empty-state p { font-size: 1.05rem; margin: 0; }
+
+        /* ── MODAL ── */
+        .recipe-modal {
+            position: fixed; inset: 0;
+            background: rgba(10,31,20,0.6);
+            backdrop-filter: blur(4px);
+            display: none; align-items: center;
+            justify-content: center;
+            z-index: 9000; padding: 1rem;
+        }
+        .recipe-modal.open { display: flex; }
+        .modal-box {
+            background: #fff; width: 620px;
+            max-width: 100%; border-radius: 24px;
+            padding: 2rem; position: relative;
+            max-height: 88vh; overflow-y: auto;
+            animation: modal-in 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards;
+            border: 1.5px solid #dde8da;
+        }
+        @keyframes modal-in {
+            from { transform: scale(0.85); opacity: 0; }
+            to   { transform: scale(1); opacity: 1; }
+        }
+        .modal-box img { width: 100%; border-radius: 16px; margin-bottom: 1.2rem; }
+        .modal-box h2 { margin: 0 0 0.6rem; font-size: 1.5rem; font-weight: 800; color: #0f1a0f; }
+        .modal-box h4 { margin: 1rem 0 0.4rem; font-size: 0.92rem; font-weight: 700; color: #d4a017; text-transform: uppercase; letter-spacing: 0.05em; }
+        .modal-box ul { margin: 0; padding-left: 1.2rem; }
+        .modal-box ul li { font-size: 0.92rem; line-height: 1.7; color: #4a6741; }
+        .modal-close {
+            position: absolute; top: 14px; right: 16px;
+            background: #f0f7f4; border: none;
+            width: 32px; height: 32px; border-radius: 50%;
+            font-size: 18px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .modal-close:hover { background: #c8e6c9; color: #1b4332; }
+        .modal-full-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            margin-top: 1.2rem; background: #d4a017; color: #0a1f14;
+            padding: 10px 20px; border-radius: 10px;
+            font-weight: 700; font-size: 0.9rem;
+            transition: background 0.15s;
+        }
+        .modal-full-link:hover { background: #1b4332; color: #fff; }
+
+        @media (max-width: 768px) {
+            .recipe-hero { padding: 2.5rem 1rem 2rem; }
+            .search-section { padding: 1.2rem 1rem; }
+            .recipes-section { padding: 1.5rem 1rem 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <a href="index.html">
+            <img src="logo.svg" alt="Fresh &amp; Green Halal Market">
+        </a>
+    </div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="recipe.html" class="active">Recipes</a></li>
+            <li><a href="weekly-special.html">Weekly Specials</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+    <div class="cart-icon">
+        <a href="cart.html">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="3" y1="6" x2="21" y2="6" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 10a4 4 0 01-8 0" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="cart-count-badge" id="cart-count-badge">0</span>
+        </a>
+    </div>
+</header>
+
+<main>
+    <!-- HERO -->
+    <section class="recipe-hero">
+        <span class="tag">✦ Halal Recipes</span>
+        <h1>Discover Delicious<br>Halal Recipes</h1>
+        <p>Search thousands of recipes we'll show you which ingredients are in stock at our store.</p>
+    </section>
+
+    <!-- SEARCH -->
+    <section class="search-section">
+        <div style="width:100%; max-width:600px;">
+            <div class="search-box">
+                <input type="text" id="recipeInput" placeholder="Search recipes e.g. lamb, biryani, shawarma...">
+                <button id="searchBtn">🔍 Search</button>
+            </div>
+            <div class="popular-chips">
+                <button class="pop-chip" onclick="quickSearch('chicken biryani')">🍛 Biryani</button>
+                <button class="pop-chip" onclick="quickSearch('lamb kebab')">🥩 Lamb Kebab</button>
+                <button class="pop-chip" onclick="quickSearch('shawarma')">🌯 Shawarma</button>
+                <button class="pop-chip" onclick="quickSearch('halal beef curry')">🍲 Beef Curry</button>
+                <button class="pop-chip" onclick="quickSearch('falafel')">🧆 Falafel</button>
+                <button class="pop-chip" onclick="quickSearch('halal dessert')">🍮 Desserts</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="recipes-section">
+        <div id="sectionLabel"></div>
+        <div class="recipe-grid" id="recipeResults">
+            <div class="empty-state">
+                <div class="icon">🍽️</div>
+                <p>Search above for a recipe we'll match ingredients to our store inventory!</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- RECIPE MODAL -->
+<div class="recipe-modal" id="recipeModal">
+    <div class="modal-box">
+        <button class="modal-close" id="closeModal">✕</button>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>Fresh & Green Halal Market</h3>
+            <p>Your trusted local source for quality Halal products.</p>
+            <img src="Cerification.jpg" alt="Certified">
+        </div>
+        <div class="footer-section">
+            <h3>Contact & Hours</h3>
+            <p>Sun – Fri: 6:00am – 10:30pm</p>
+            <p>Saturday: 9:00am – 11:00pm</p>
+            <p>3425 S 146th St, Tukwila, WA 98168</p>
+            <p>(206) 241-1511</p>
+        </div>
+        <div class="footer-section">
+            <h3>Connect With Us</h3>
+            <a href="https://www.facebook.com" target="_blank" rel="noopener">
+                <img src="facebooklogo.png" alt="Facebook" class="social-icon">
+            </a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener">
+                <img src="instalogo.png" alt="Instagram" class="social-icon">
+            </a>
+        </div>
+    </div>
+    <div class="footer-bottom">© 2025 Fresh & Green Halal Market. All Rights Reserved.</div>
+</footer>
+
+<!-- CHATBOT WIDGET (drop this one line into ANY page) -->
+<script src="chatbot_widget.js"></script>
+
+<script>
+    /* ── CART ── */
+    function getCart() { return JSON.parse(localStorage.getItem('cart') || '[]'); }
+    function updateCartBadge() {
+        document.getElementById('cart-count-badge').textContent =
+            getCart().reduce((a, i) => a + i.quantity, 0);
+    }
+
+    /* ── INVENTORY ── */
+    let inventory = [];
+    async function loadInventory() {
+        try {
+            const res = await fetch('fetch.php');
+            inventory = (await res.json()).map(p => p.name.toLowerCase());
+        } catch { inventory = []; }
+    }
+
+    /* ── RECIPE SEARCH ── */
+    let currentRecipes = [];
+
+    async function searchRecipes(query) {
+        const container = document.getElementById('recipeResults');
+        const label = document.getElementById('sectionLabel');
+        container.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">⏳</div>
+        <p>Finding halal recipes for "<strong>${query}</strong>"…</p>
+      </div>`;
+        label.innerHTML = '';
+
+        try {
+            const res = await fetch('recipes_api.php?q=' + encodeURIComponent(query));
+            const recipes = await res.json();
+            currentRecipes = recipes;
+            container.innerHTML = '';
+
+            if (!recipes.length) {
+                container.innerHTML = `<div class="empty-state"><div class="icon">😔</div><p>No recipes found for "<strong>${query}</strong>". Try something else!</p></div>`;
+                return;
+            }
+
+            label.innerHTML = `<h2>Results for <span>"${query}"</span> ${recipes.length} recipes found</h2>`;
+
+            recipes.forEach((recipe, index) => {
+                const ings = recipe.ingredients || [];
+                let matched = ings.filter(ing => inventory.some(item => ing.toLowerCase().includes(item))).length;
+                let badgeClass = matched >= ings.length * 0.7 ? 'badge-good' : matched >= ings.length * 0.4 ? 'badge-medium' : 'badge-low';
+                let badgeLabel = matched >= ings.length * 0.7 ? '✓ Most items in stock' : matched >= ings.length * 0.4 ? '~ Some items in stock' : `${matched}/${ings.length} items in stock`;
+
+                const card = document.createElement('div');
+                card.className = 'recipe-card';
+                card.innerHTML = `
+          <div class="recipe-card-img">
+            <img src="${recipe.image}" alt="${recipe.title}" loading="lazy">
+            <span class="stock-badge ${badgeClass}">${badgeLabel}</span>
+          </div>
+          <div class="recipe-card-body">
+            <h3>${recipe.title}</h3>
+            <div class="recipe-meta">
+              <span class="recipe-meta-tag">🧾 ${ings.length} ingredients</span>
+              <span class="recipe-meta-tag">🥗 Halal</span>
+            </div>
+            <button class="view-btn" onclick="openModal(${index})">
+              View Recipe
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+          </div>`;
+                container.appendChild(card);
+            });
+        } catch {
+            container.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><p>Could not load recipes. Please check your connection.</p></div>`;
+        }
+    }
+
+    function quickSearch(term) {
+        document.getElementById('recipeInput').value = term;
+        searchRecipes(term);
+    }
+
+    /* ── MODAL ── */
+    function openModal(index) {
+        const r = currentRecipes[index];
+        document.getElementById('modalBody').innerHTML = `
+      <img src="${r.image}" alt="${r.title}">
+      <h2>${r.title}</h2>
+      <h4>Ingredients</h4>
+      <ul>${r.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
+      <a href="${r.url}" target="_blank" rel="noopener" class="modal-full-link">
+        Full Instructions ↗
+      </a>`;
+        document.getElementById('recipeModal').classList.add('open');
+    }
+
+    document.getElementById('closeModal').onclick = () => document.getElementById('recipeModal').classList.remove('open');
+    document.getElementById('recipeModal').onclick = (e) => {
+        if (e.target === document.getElementById('recipeModal'))
+            document.getElementById('recipeModal').classList.remove('open');
+    };
+
+    /* ── SEARCH EVENTS ── */
+    document.getElementById('searchBtn').onclick = () => {
+        const val = document.getElementById('recipeInput').value.trim();
+        if (val) searchRecipes(val);
+    };
+    document.getElementById('recipeInput').addEventListener('keypress', e => {
+        if (e.key === 'Enter') document.getElementById('searchBtn').click();
+    });
+
+    /* ── INIT ── */
+    document.addEventListener('DOMContentLoaded', async () => {
+        updateCartBadge();
+        await loadInventory();
+        // Load some default recipes on page load
+        searchRecipes('halal chicken');
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" width="320" height="90">
+  <defs>
+    <linearGradient id="g-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5d76e"/>
+      <stop offset="60%" stop-color="#d4a017"/>
+      <stop offset="100%" stop-color="#b8860b"/>
+    </linearGradient>
+    <linearGradient id="g-goldH" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b8860b" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#f5d76e"/>
+      <stop offset="70%" stop-color="#f5d76e"/>
+      <stop offset="100%" stop-color="#b8860b" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="g-emblem" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2d6a4f"/>
+      <stop offset="100%" stop-color="#081910"/>
+    </linearGradient>
+    <filter id="f-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+    <filter id="f-textglow" x="-5%" y="-5%" width="110%" height="110%">
+      <feGaussianBlur stdDeviation="0.8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ═══════════════════════════════════════════
+       EMBLEM — clean circular badge
+  ═══════════════════════════════════════════ -->
+  <!-- Shadow -->
+  <circle cx="45" cy="45" r="41" fill="#000" opacity="0.25" transform="translate(1.5,2)"/>
+  <!-- Base circle -->
+  <circle cx="45" cy="45" r="41" fill="url(#g-emblem)"/>
+  <!-- Outer gold ring -->
+  <circle cx="45" cy="45" r="40" fill="none" stroke="#d4a017" stroke-width="1.8"/>
+  <!-- Inner gold ring -->
+  <circle cx="45" cy="45" r="35" fill="none" stroke="#d4a017" stroke-width="0.6" stroke-dasharray="2.5,2"/>
+  <!-- Subtle inner fill -->
+  <circle cx="45" cy="45" r="34" fill="#0d2818" opacity="0.5"/>
+
+  <!-- ── WHEAT STALKS ── -->
+  <!-- Left stalk -->
+  <path d="M28 62 L36 28" stroke="#c8960c" stroke-width="1.1" stroke-linecap="round"/>
+  <path d="M36 45 Q29 40 28 33 Q34 37 36 45Z" fill="#d4a017"/>
+  <path d="M35 37 Q28 32 28 25 Q33 29 35 37Z" fill="#d4a017" opacity="0.85"/>
+  <!-- Right stalk -->
+  <path d="M62 62 L54 28" stroke="#c8960c" stroke-width="1.1" stroke-linecap="round"/>
+  <path d="M54 45 Q61 40 62 33 Q56 37 54 45Z" fill="#d4a017"/>
+  <path d="M55 37 Q62 32 62 25 Q57 29 55 37Z" fill="#d4a017" opacity="0.85"/>
+
+  <!-- ── CENTER HERB / LEAF ── -->
+  <!-- stem -->
+  <path d="M45 64 Q45 52 45 24" stroke="#d4a017" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <!-- left leaf bottom -->
+  <path d="M45 56 Q37 50 36 42 Q43 46 45 56Z" fill="#52b788" opacity="0.9"/>
+  <!-- right leaf bottom -->
+  <path d="M45 56 Q53 50 54 42 Q47 46 45 56Z" fill="#52b788" opacity="0.9"/>
+  <!-- left leaf top -->
+  <path d="M45 44 Q38 38 38 30 Q44 34 45 44Z" fill="#74c69d" opacity="0.85"/>
+  <!-- right leaf top -->
+  <path d="M45 44 Q52 38 52 30 Q46 34 45 44Z" fill="#74c69d" opacity="0.85"/>
+  <!-- leaf veins -->
+  <path d="M45 56 Q40 51 37 43" stroke="#40916c" stroke-width="0.5" fill="none" opacity="0.7"/>
+  <path d="M45 56 Q50 51 53 43" stroke="#40916c" stroke-width="0.5" fill="none" opacity="0.7"/>
+  <!-- top bud -->
+  <ellipse cx="45" cy="23" rx="3" ry="4" fill="#74c69d"/>
+  <ellipse cx="45" cy="22" rx="1.5" ry="2" fill="#95d5b2"/>
+
+  <!-- ── CURVED BOTTOM TEXT ── -->
+  <path id="arc-bottom" d="M 12 52 A 35 35 0 0 0 78 52" fill="none"/>
+  <text font-family="Arial, sans-serif" font-size="5.2" fill="#d4a017" letter-spacing="1.5" font-weight="700">
+    <textPath href="#arc-bottom" startOffset="6%">ZABIHA  ·  HALAL  ·  TUKWILA</textPath>
+  </text>
+
+  <!-- Small star/dot top of emblem -->
+  <polygon points="45,8 46.2,11.5 50,11.5 47,13.5 48.2,17 45,15 41.8,17 43,13.5 40,11.5 43.8,11.5" fill="#d4a017" opacity="0.9" transform="scale(0.7) translate(19.3,4)"/>
+
+  <!-- ═══════════════════════════════════════════
+       WORDMARK
+  ═══════════════════════════════════════════ -->
+
+  <!-- FRESH & GREEN — stacked layout -->
+  <!-- Line 1: FRESH -->
+  <text x="102" y="32"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="26" font-weight="700"
+    fill="url(#g-gold)"
+    letter-spacing="5"
+    filter="url(#f-textglow)">FRESH</text>
+
+  <!-- Thin gold rule -->
+  <rect x="102" y="37" width="205" height="1" fill="url(#g-goldH)" rx="0.5"/>
+
+  <!-- Diamond center ornament on rule -->
+  <polygon points="204,34.5 207,37 204,39.5 201,37" fill="#d4a017"/>
+
+  <!-- Line 2: & GREEN -->
+  <text x="102" y="58"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="26" font-weight="700"
+    fill="#ffffff"
+    letter-spacing="5">&amp; GREEN</text>
+
+  <!-- Subtitle: HALAL MARKET -->
+  <text x="104" y="72"
+    font-family="'Arial', sans-serif"
+    font-size="9" font-weight="600"
+    fill="#d4a017"
+    letter-spacing="6"
+    opacity="0.9">HALAL MARKET</text>
+
+  <!-- Tagline -->
+  <text x="104" y="83"
+    font-family="Georgia, serif"
+    font-size="7.5"
+    font-style="italic"
+    fill="#95d5b2"
+    letter-spacing="0.8"
+    opacity="0.75">Serving our community since 2010</text>
+
+</svg>

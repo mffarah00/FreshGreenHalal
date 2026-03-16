@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Fresh & Green Halal Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .shop-layout {
+            max-width: 1350px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem 5rem;
+        }
+        /* CONTROLS */
+        .shop-controls {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            background: var(--white);
+            padding: 1.2rem 1.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            align-items: center;
+        }
+        .shop-search-wrap {
+            flex: 1 1 260px;
+            position: relative;
+        }
+        .shop-search-wrap svg {
+            position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+            width: 16px; height: 16px; color: #aaa;
+        }
+        .shop-search-wrap input {
+            width: 100%;
+            padding: 10px 12px 10px 36px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.92rem;
+            font-family: var(--font);
+            outline: none;
+            transition: border-color var(--transition), box-shadow var(--transition);
+        }
+        .shop-search-wrap input:focus {
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(27,67,50,0.08);
+        }
+        .shop-select {
+            padding: 10px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font);
+            font-size: 0.92rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            background: var(--white);
+            color: var(--text);
+            transition: border-color var(--transition);
+        }
+        .shop-select:focus { border-color: var(--red); }
+        .results-count {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-weight: 600;
+            padding: 0 4px;
+            white-space: nowrap;
+        }
+
+        /* PRODUCT GRID */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+        .product-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            border: 1.5px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(27,67,50,0.1);
+            border-color: var(--red-light);
+        }
+        .product-card-img {
+            position: relative;
+            background: #faf9f7;
+            padding: 1rem;
+        }
+        .product-card-img img {
+            width: 100%; height: 170px;
+            object-fit: contain;
+        }
+        .product-card-body {
+            padding: 1rem 1.1rem 1.2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card-body h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+        .product-category {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.6rem;
+        }
+        .product-price {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--red);
+            margin-bottom: 0.7rem;
+        }
+        .product-price .unit { font-size: 0.78rem; font-weight: 500; color: var(--text-muted); }
+        .qty-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.7rem;
+        }
+        .qty-btn {
+            width: 28px; height: 28px;
+            border-radius: 7px;
+            border: 1.5px solid var(--red);
+            background: var(--white);
+            color: var(--red);
+            font-size: 1rem; font-weight: 800;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .qty-btn:hover { background: var(--red); color: #fff; }
+        .qty-input {
+            width: 54px;
+            text-align: center;
+            padding: 5px;
+            border: 1.5px solid var(--border);
+            border-radius: 7px;
+            font-family: var(--font);
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 9px;
+            background: var(--red);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            font-family: var(--font);
+            transition: background var(--transition), transform var(--transition);
+            margin-top: auto;
+        }
+        .add-to-cart-btn:hover { background: var(--red-dark); transform: scale(1.02); }
+        .add-to-cart-btn.added {
+            background: #2e7d32;
+            animation: pop 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }
+
+        /* EMPTY STATE */
+        .empty-products {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 5rem 2rem;
+            color: var(--text-muted);
+        }
+        .empty-products .icon { font-size: 3rem; margin-bottom: 1rem; }
+
+        /* TOAST */
+        .toast {
+            position: fixed; bottom: 88px; left: 50%; transform: translateX(-50%);
+            background: #1a1a1a; color: #fff;
+            padding: 10px 22px; border-radius: var(--radius-md);
+            font-size: 0.88rem; font-weight: 600;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.25s, transform 0.25s;
+            z-index: 9000; white-space: nowrap;
+        }
+        .toast.show { opacity: 1; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><a href="index.html"><img src="logo.svg" alt="Fresh &amp; Green Halal Market"></a></div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="shop.html" class="active">Shop</a></li>
+            <li><a href="recipe.html">Recipes</a></li>
+            <li><a href="weekly-special.html">Weekly Specials</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+    <div class="cart-icon"><a href="cart.html"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="3" y1="6" x2="21" y2="6" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 10a4 4 0 01-8 0" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg><span class="cart-count-badge" id="cart-count-badge">0</span></a></div>
+</header>
+
+<main>
+    <section class="page-hero" style="padding:3rem 2rem 2.5rem;">
+        <span class="hero-tag">✦ Certified Halal Products</span>
+        <h1>Shop Our Products</h1>
+        <p>Fresh meats, groceries, spices, and more all certified Zabiha Halal.</p>
+    </section>
+
+    <div class="shop-layout">
+        <div class="shop-controls">
+            <div class="shop-search-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="searchInput" placeholder="Search products…">
+            </div>
+            <select id="categoryFilter" class="shop-select">
+                <option value="all">All Categories</option>
+                <option value="meat">🥩 Meat</option>
+                <option value="grocery">🛒 Grocery</option>
+                <option value="fruits">🍎 Fruits</option>
+                <option value="vegetables">🥦 Vegetables</option>
+                <option value="dairy">🥛 Dairy</option>
+            </select>
+            <select id="priceFilter" class="shop-select">
+                <option value="all">All Prices</option>
+                <option value="under5">Under $5</option>
+                <option value="5to10">$5 – $10</option>
+                <option value="10plus">$10+</option>
+            </select>
+            <select id="sortFilter" class="shop-select">
+                <option value="default">Sort: Default</option>
+                <option value="name_az">Name: A → Z</option>
+                <option value="name_za">Name: Z → A</option>
+                <option value="price_low">Price: Low → High</option>
+                <option value="price_high">Price: High → Low</option>
+                <option value="category">By Category</option>
+            </select>
+            <span class="results-count" id="resultsCount"></span>
+        </div>
+
+        <div class="product-grid" id="products">
+            <div class="empty-products">
+                <div class="icon">⏳</div>
+                <p>Loading products…</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="toast" id="toast">✓ Added to cart!</div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section"><h3>Fresh & Green Halal Market</h3><p>Your trusted local source for quality Halal products.</p><img src="Cerification.jpg" alt="Certified"></div>
+        <div class="footer-section"><h3>Contact & Hours</h3><p>Sun – Fri: 6:00am – 10:30pm<br>Saturday: 9:00am – 11:00pm</p><p style="margin-top:0.5rem;">3425 S 146th St, Tukwila, WA 98168<br>(206) 241-1511</p></div>
+        <div class="footer-section"><h3>Connect</h3><a href="https://www.facebook.com" target="_blank" rel="noopener"><img src="facebooklogo.png" alt="Facebook" class="social-icon"></a><a href="https://www.instagram.com/" target="_blank" rel="noopener"><img src="instalogo.png" alt="Instagram" class="social-icon"></a></div>
+    </div>
+    <div class="footer-bottom">© 2025 Fresh & Green Halal Market. All Rights Reserved.</div>
+</footer>
+
+<script src="chatbot_widget.js"></script>
+<script>
+    function getCart() { return JSON.parse(localStorage.getItem("cart") || "[]"); }
+    function saveCart(c) { localStorage.setItem("cart", JSON.stringify(c)); }
+    function updateBadge() {
+        document.getElementById('cart-count-badge').textContent = getCart().reduce((s, i) => s + Number(i.quantity), 0);
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2000);
+    }
+
+    let allProducts = [];
+
+    fetch("fetch.php").then(r => r.json()).then(data => {
+        allProducts = data;
+        renderProducts(allProducts);
+    }).catch(() => {
+        document.getElementById('products').innerHTML = '<div class="empty-products"><div class="icon">⚠️</div><p>Could not load products. Make sure XAMPP is running.</p></div>';
+    });
+
+    function renderProducts(products) {
+        const container = document.getElementById("products");
+        const count = document.getElementById("resultsCount");
+        container.innerHTML = "";
+        count.textContent = products.length + " product" + (products.length !== 1 ? 's' : '') + " found";
+
+        if (!products.length) {
+            container.innerHTML = '<div class="empty-products"><div class="icon">🔍</div><p>No products match your filters. Try adjusting your search.</p></div>';
+            return;
+        }
+
+        products.forEach(product => {
+            const produceCategories = ['fruits', 'vegetables', 'produce'];
+            const isLb = product.unit === "lb" || produceCategories.includes((product.category || '').toLowerCase());
+            const step = isLb ? 0.25 : 1;
+            const card = document.createElement("div");
+            card.className = "product-card";
+            card.innerHTML = `
+        <div class="product-card-img">
+          <img src="${product.image}" alt="${product.name}" loading="lazy">
+
+        </div>
+        <div class="product-card-body">
+          <div class="product-category">${product.category || 'General'}</div>
+          <h3>${product.name}</h3>
+          <div class="product-price">$${Number(product.price).toFixed(2)}<span class="unit">${isLb ? ' /lb' : ''}</span></div>
+          <div class="qty-row">
+            <button class="qty-btn minus">−</button>
+            <input type="number" class="qty-input" value="${step}" min="${step}" step="${step}">
+            <button class="qty-btn plus">+</button>
+          </div>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>`;
+
+            const qtyInput = card.querySelector('.qty-input');
+            card.querySelector('.minus').onclick = () => {
+                let v = parseFloat(qtyInput.value);
+                if (v > step) qtyInput.value = (v - step).toFixed(2);
+            };
+            card.querySelector('.plus').onclick = () => {
+                qtyInput.value = (parseFloat(qtyInput.value) + step).toFixed(2);
+            };
+            card.querySelector('.add-to-cart-btn').onclick = function () {
+                let cart = getCart();
+                const qty = parseFloat(qtyInput.value);
+                const pid = Number(product.id);
+                const existing = cart.find(i => Number(i.id) === pid);
+                if (existing) { existing.quantity += qty; }
+                else { cart.push({ id: pid, name: product.name, price: Number(product.price), quantity: qty, img: product.image, category: product.category || '' }); }
+                saveCart(cart);
+                updateBadge();
+                this.textContent = '✓ Added!';
+                this.classList.add('added');
+                setTimeout(() => { this.textContent = 'Add to Cart'; this.classList.remove('added'); }, 1500);
+                showToast(`${product.name} added to cart`);
+            };
+            container.appendChild(card);
+        });
+    }
+
+    function filterProducts() {
+        const s     = document.getElementById("searchInput").value.toLowerCase();
+        const cat   = document.getElementById("categoryFilter").value;
+        const price = document.getElementById("priceFilter").value;
+        const sort  = document.getElementById("sortFilter").value;
+
+        let filtered = allProducts.filter(p => {
+            const nm = p.name.toLowerCase().includes(s);
+            const cm = cat === "all" || (p.category && p.category.toLowerCase() === cat);
+            let pm = true;
+            if (price === "under5")  pm = p.price < 5;
+            if (price === "5to10")   pm = p.price >= 5 && p.price <= 10;
+            if (price === "10plus")  pm = p.price > 10;
+            return nm && cm && pm;
+        });
+
+        // Sort
+        if (sort === "name_az")    filtered.sort((a, b) => a.name.localeCompare(b.name));
+        if (sort === "name_za")    filtered.sort((a, b) => b.name.localeCompare(a.name));
+        if (sort === "price_low")  filtered.sort((a, b) => a.price - b.price);
+        if (sort === "price_high") filtered.sort((a, b) => b.price - a.price);
+        if (sort === "category")   filtered.sort((a, b) => (a.category || '').localeCompare(b.category || ''));
+
+        renderProducts(filtered);
+    }
+
+    document.getElementById("searchInput").addEventListener("input", filterProducts);
+    document.getElementById("categoryFilter").addEventListener("change", filterProducts);
+    document.getElementById("priceFilter").addEventListener("change", filterProducts);
+    document.getElementById("sortFilter").addEventListener("change", filterProducts);
+    document.addEventListener("DOMContentLoaded", updateBadge);
+</script>
+</body>
+</html>

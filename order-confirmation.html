@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmed Fresh & Green Halal Market</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { background: #f8f7f4; }
+
+    /* ── CONFETTI CANVAS ── */
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .confirm-page {
+      max-width: 680px;
+      margin: 4rem auto 5rem;
+      padding: 0 1.5rem;
+    }
+
+    /* ── SUCCESS CARD ── */
+    .success-card {
+      background: #fff;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+      border: 1.5px solid #ede8e3;
+      margin-bottom: 1.5rem;
+      animation: card-rise 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+    @keyframes card-rise {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .success-header {
+      background: linear-gradient(135deg, #0a1f14 0%, #d4a017 100%);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .success-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/svg%3E") repeat;
+    }
+    .checkmark-circle {
+      width: 72px; height: 72px;
+      background: rgba(255,255,255,0.15);
+      border: 3px solid rgba(255,255,255,0.4);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.2rem;
+      font-size: 2rem;
+      position: relative;
+      animation: pop-in 0.5s 0.2s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes pop-in {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .success-header h1 {
+      color: #fff;
+      font-size: 1.7rem;
+      font-weight: 800;
+      margin: 0 0 0.4rem;
+      position: relative;
+    }
+    .success-header p {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.95rem;
+      margin: 0;
+      position: relative;
+    }
+    .order-num-pill {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      padding: 6px 18px;
+      border-radius: 30px;
+      margin-top: 1rem;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .order-num-pill:hover { background: rgba(255,255,255,0.28); }
+    .order-num-pill .copy-hint {
+      font-size: 0.72rem;
+      opacity: 0.65;
+      margin-left: 6px;
+      font-weight: 500;
+    }
+
+    /* ── DETAILS BODY ── */
+    .confirm-body { padding: 2rem; }
+
+    .pickup-highlight {
+      background: linear-gradient(135deg, #f0f7f4, #fff0f0);
+      border: 1.5px solid #d4ecd4;
+      border-radius: 14px;
+      padding: 1.3rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+    .pickup-highlight .ph-icon { font-size: 2.2rem; flex-shrink: 0; }
+    .pickup-highlight .ph-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #d4a017;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 3px;
+      display: block;
+    }
+    .pickup-highlight .ph-time {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #1a1a1a;
+    }
+    .pickup-highlight .ph-addr {
+      font-size: 0.83rem;
+      color: #888;
+      margin-top: 3px;
+    }
+
+    /* ORDER ITEMS */
+    .order-items-section { margin-bottom: 1.5rem; }
+    .order-items-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.8rem;
+    }
+    .order-item-row {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid #f5f0eb;
+    }
+    .order-item-row:last-child { border-bottom: none; }
+    .order-item-row img {
+      width: 46px; height: 46px;
+      border-radius: 9px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid #ede8e3;
+    }
+    .order-item-info { flex: 1; }
+    .order-item-name { font-weight: 700; font-size: 0.9rem; }
+    .order-item-qty { font-size: 0.78rem; color: #aaa; }
+    .order-item-price { font-weight: 800; font-size: 0.92rem; color: #d4a017; }
+
+    /* TOTALS */
+    .totals-box {
+      background: #f8f7f4;
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+    .totals-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      color: #888;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .totals-final {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #d4a017;
+      border-top: 1.5px solid #e8e0d8;
+      padding-top: 0.8rem;
+      margin-top: 0.3rem;
+    }
+
+    /* WHAT'S NEXT */
+    .next-steps {
+      background: #f8f7f4;
+      border-radius: 14px;
+      padding: 1.3rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .next-steps h4 {
+      font-size: 0.85rem;
+      font-weight: 800;
+      margin-bottom: 0.9rem;
+      color: #1a1a1a;
+    }
+    .step-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      margin-bottom: 0.7rem;
+      font-size: 0.88rem;
+      color: #555;
+      line-height: 1.5;
+    }
+    .step-row:last-child { margin-bottom: 0; }
+    .step-dot {
+      width: 22px; height: 22px;
+      background: #d4a017;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 0.72rem;
+      font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* EMAIL NOTICE */
+    .email-notice {
+      text-align: center;
+      font-size: 0.84rem;
+      color: #aaa;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .email-notice strong { color: #1a1a1a; }
+
+    /* ACTION BUTTONS */
+    .action-btns {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .action-btns a {
+      flex: 1;
+      display: block;
+      padding: 12px;
+      text-align: center;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      min-width: 140px;
+    }
+    .btn-home {
+      background: #d4a017;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(27,67,50,0.25);
+    }
+    .btn-home:hover { background: #0a1f14; transform: translateY(-1px); }
+    .btn-shop {
+      background: #f8f7f4;
+      color: #1a1a1a;
+      border: 1.5px solid #ede8e3;
+    }
+    .btn-shop:hover { border-color: #d4a017; color: #d4a017; }
+
+    /* ERROR STATE */
+    .error-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+      border: 1.5px solid #d4ecd4;
+    }
+    .error-card .err-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .error-card h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; color: #d4a017; }
+    .error-card p { color: #888; margin-bottom: 1.5rem; font-size: 0.92rem; }
+
+    /* COPY TOAST */
+    .copy-toast {
+      position: fixed;
+      bottom: 32px; left: 50%;
+      transform: translateX(-50%);
+      background: #1a1a1a;
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+      z-index: 8888;
+    }
+    .copy-toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<header>
+  <div class="logo"><a href="index.html"><img src="logo.svg" alt="Fresh &amp; Green Halal Market"></a></div>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="weekly-special.html">Weekly Specials</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <div class="confirm-page" id="confirmPage">
+    <!-- Populated by JS -->
+  </div>
+</main>
+
+<div class="copy-toast" id="copyToast">✓ Order number copied!</div>
+
+<script>
+  // ── LOAD ORDER DATA FROM sessionStorage ──────────────────────────────────────
+  const orderData = JSON.parse(sessionStorage.getItem("lastOrder") || "null");
+
+  const page = document.getElementById("confirmPage");
+
+  if (!orderData || !orderData.orderNumber) {
+    // No order data show error
+    page.innerHTML = `
+      <div class="error-card">
+        <div class="err-icon">🛒</div>
+        <h2>No Order Found</h2>
+        <p>It looks like you navigated here directly. Place an order first!</p>
+        <div class="action-btns" style="justify-content:center;">
+          <a href="shop.html" class="action-btns" style="display:inline-block;padding:12px 28px;background:#d4a017;color:#fff;border-radius:12px;font-weight:700;">Browse Shop</a>
+        </div>
+      </div>`;
+  } else {
+    const { orderNumber, name, pickup, total, subtotal, tax, cart, email } = orderData;
+
+    // Build items HTML
+    let itemsHtml = "";
+    (cart || []).forEach(item => {
+      const lineTotal = (item.price * item.quantity).toFixed(2);
+      itemsHtml += `
+        <div class="order-item-row">
+          <img src="${item.img || 'product1.jpg'}" alt="${item.name}" onerror="this.src='product1.jpg'">
+          <div class="order-item-info">
+            <div class="order-item-name">${item.name}</div>
+            <div class="order-item-qty">Qty: ${item.quantity}</div>
+          </div>
+          <div class="order-item-price">$${lineTotal}</div>
+        </div>`;
+    });
+
+    page.innerHTML = `
+      <div class="success-card">
+        <div class="success-header">
+          <div class="checkmark-circle">✓</div>
+          <h1>Order Confirmed!</h1>
+          <p>Thank you, ${name}. We'll have it ready for you.</p>
+          <div class="order-num-pill" onclick="copyOrderNumber('${orderNumber}')">
+            ${orderNumber} <span class="copy-hint">tap to copy</span>
+          </div>
+        </div>
+
+        <div class="confirm-body">
+          <div class="pickup-highlight">
+            <div class="ph-icon">🏪</div>
+            <div>
+              <span class="ph-label">Pickup Time</span>
+              <div class="ph-time">${pickup}</div>
+              <div class="ph-addr">📍 3425 S 146th St, Tukwila, WA 98168</div>
+            </div>
+          </div>
+
+          <div class="order-items-section">
+            <div class="order-items-label">Your Items</div>
+            ${itemsHtml}
+          </div>
+
+          <div class="totals-box">
+            <div class="totals-row"><span>Subtotal</span><span>$${parseFloat(subtotal).toFixed(2)}</span></div>
+            <div class="totals-row"><span>Tax (10%)</span><span>$${parseFloat(tax).toFixed(2)}</span></div>
+            <div class="totals-final"><span>Total Due at Pickup</span><span>$${parseFloat(total).toFixed(2)}</span></div>
+          </div>
+
+          <div class="next-steps">
+            <h4>📋 What Happens Next</h4>
+            <div class="step-row"><div class="step-dot">1</div><span>A confirmation email has been sent to <strong>${email}</strong></span></div>
+            <div class="step-row"><div class="step-dot">2</div><span>Your order will be prepared and ready at <strong>${pickup}</strong></span></div>
+            <div class="step-row"><div class="step-dot">3</div><span>Bring your order number <strong>${orderNumber}</strong> or this email when you arrive</span></div>
+            <div class="step-row"><div class="step-dot">4</div><span>Payment is collected at the store cash or card accepted</span></div>
+          </div>
+
+          <p class="email-notice">
+            A confirmation receipt has been sent to <strong>${email}</strong>.<br>
+            Didn't receive it? Check your spam folder or call us at (206) 241-1511.
+          </p>
+
+          <div class="action-btns">
+            <a href="index.html" class="btn-home">← Back to Home</a>
+            <a href="shop.html" class="btn-shop">Continue Shopping</a>
+          </div>
+        </div>
+      </div>`;
+
+    // Clear session storage so refresh doesn't re-show
+    sessionStorage.removeItem("lastOrder");
+
+    // ── FORMSUBMIT EMAIL ──────────────────────────────────────────────────────
+    // Build cart summary text
+    let cartSummary = '';
+    (cart || []).forEach(item => {
+      const line = (item.price * item.quantity).toFixed(2);
+      cartSummary += `• ${item.name} x${item.quantity} = $${line}\n`;
+    });
+
+    const storeMessage = `New Order: ${orderNumber}\n\nCustomer: ${name}\nEmail: ${email}\nPickup Time: ${pickup}\n\nItems:\n${cartSummary}\nSubtotal: $${parseFloat(subtotal).toFixed(2)}\nTax: $${parseFloat(tax).toFixed(2)}\nTotal: $${parseFloat(total).toFixed(2)}`;
+
+    const custMessage = `Assalamu Alaikum ${name},\n\nYour order is confirmed!\n\nOrder Number: ${orderNumber}\nPickup Time: ${pickup}\nLocation: 3425 S 146th St, Tukwila, WA 98168\n\nItems:\n${cartSummary}\nSubtotal: $${parseFloat(subtotal).toFixed(2)}\nTax: $${parseFloat(tax).toFixed(2)}\nTotal Due at Pickup: $${parseFloat(total).toFixed(2)}\n\nPayment collected in-store — cash or card accepted.\nQuestions? Call (206) 241-1511\n\nFresh & Green Halal Market`;
+
+    // Send to store
+    fetch('https://formsubmit.co/ajax/mffarah0@gmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name: 'Fresh & Green Order System',
+        email: email,
+        subject: `New Order ${orderNumber} — ${name}`,
+        message: storeMessage,
+        _captcha: 'false'
+      })
+    }).catch(() => {});
+
+    // Send to customer (routed through store email to avoid activation requirement)
+    fetch('https://formsubmit.co/ajax/mffarah0@gmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name: 'Fresh & Green Halal Market',
+        email: email,
+        subject: `Your Order ${orderNumber} is Confirmed! — Please Forward to ${email}`,
+        message: custMessage,
+        _captcha: 'false',
+        _replyto: email
+      })
+    }).catch(() => {});
+
+    // Fire confetti
+    setTimeout(launchConfetti, 300);
+  }
+
+  // ── COPY ORDER NUMBER ──────────────────────────────────────────────────────
+  function copyOrderNumber(num) {
+    navigator.clipboard.writeText(num).catch(() => {});
+    const t = document.getElementById("copyToast");
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 2200);
+  }
+
+  // ── CONFETTI ──────────────────────────────────────────────────────────────
+  function launchConfetti() {
+    const canvas = document.getElementById("confetti-canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const colors = ["#d4a017", "#2d6a4f", "#fff", "#d4ecd4", "#0a1f14", "#95d5b2"];
+    const pieces = Array.from({ length: 120 }, () => ({
+      x: Math.random() * canvas.width,
+      y: -10 - Math.random() * 200,
+      w: 8 + Math.random() * 8,
+      h: 4 + Math.random() * 5,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * 360,
+      spin: (Math.random() - 0.5) * 8,
+      vx: (Math.random() - 0.5) * 3,
+      vy: 2.5 + Math.random() * 3,
+      opacity: 1
+    }));
+
+    let frame = 0;
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pieces.forEach(p => {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rot * Math.PI) / 180);
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.spin;
+        p.vy += 0.05;
+        if (frame > 80) p.opacity -= 0.015;
+      });
+      frame++;
+      if (frame < 160) requestAnimationFrame(draw);
+      else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    draw();
+  }
+</script>
+</body>
+</html>

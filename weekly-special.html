@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Specials Fresh & Green Halal Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .specials-page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 2rem 5rem;
+        }
+
+        /* NEWSLETTER */
+        .newsletter-bar {
+            background: linear-gradient(135deg, #f0f7f4, #fff0f0);
+            border: 1.5px solid var(--red-light);
+            border-radius: var(--radius-xl);
+            padding: 2rem 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 3.5rem;
+        }
+        .newsletter-bar .nl-icon { font-size: 2.5rem; flex-shrink: 0; }
+        .newsletter-bar-text { flex: 1; }
+        .newsletter-bar-text h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 0.2rem; }
+        .newsletter-bar-text p { color: var(--text-muted); font-size: 0.9rem; }
+        .newsletter-form {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .newsletter-form input {
+            padding: 10px 16px;
+            border: 1.5px solid var(--red-light);
+            border-radius: var(--radius-sm);
+            font-family: var(--font);
+            font-size: 0.9rem;
+            outline: none;
+            min-width: 220px;
+            transition: border-color var(--transition);
+        }
+        .newsletter-form input:focus { border-color: var(--red); }
+        .newsletter-form button {
+            padding: 10px 20px;
+            background: var(--red);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.9rem;
+            font-family: var(--font);
+            cursor: pointer;
+            transition: background var(--transition);
+        }
+        .newsletter-form button:hover { background: var(--red-dark); }
+
+        /* DEALS GRID */
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.8rem;
+        }
+        .deal-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            border: 1.5px solid var(--border);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .deal-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(27,67,50,0.12);
+            border-color: var(--red-light);
+        }
+        .deal-ribbon {
+            position: absolute;
+            top: 16px; left: -4px;
+            background: var(--red);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 5px 14px 5px 10px;
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 2px 8px rgba(27,67,50,0.3);
+        }
+        .deal-ribbon::before {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0;
+            border: 5px solid transparent;
+            border-top-color: #0a1f14;
+            border-right-color: #0a1f14;
+        }
+        .deal-card-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        .deal-card-img img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .deal-card:hover .deal-card-img img { transform: scale(1.06); }
+        .deal-card-body {
+            padding: 1.4rem;
+        }
+        .deal-badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 20px;
+            margin-bottom: 0.6rem;
+            border: 1px solid #a5d6a7;
+        }
+        .deal-card-body h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 0.4rem;
+            color: var(--text);
+        }
+        .deal-card-body p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        .deal-price-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.1rem;
+        }
+        .deal-price-new {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--red);
+        }
+        .deal-price-old {
+            font-size: 0.95rem;
+            color: #bbb;
+            text-decoration: line-through;
+        }
+        .deal-save {
+            background: #fff3cd;
+            color: #7d5a00;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            border: 1px solid #ffeaa7;
+        }
+        .deal-cta {
+            display: block;
+            width: 100%;
+            padding: 11px;
+            background: var(--red);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            font-family: var(--font);
+            transition: background var(--transition), transform var(--transition);
+        }
+        .deal-cta:hover { background: var(--red-dark); transform: scale(1.02); }
+
+        /* TIMER */
+        .countdown-bar {
+            background: #0a1f14;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        .countdown-bar p { color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-bottom: 0.4rem; }
+        .countdown-digits {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .cd-unit { text-align: center; }
+        .cd-num { display: block; font-size: 1.5rem; font-weight: 800; color: #fff; line-height: 1; }
+        .cd-label { font-size: 0.65rem; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.08em; }
+        .cd-sep { font-size: 1.5rem; font-weight: 800; color: var(--red); align-self: center; margin-top: -4px; }
+
+        @media (max-width: 700px) {
+            .newsletter-bar { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .deals-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><a href="index.html"><img src="logo.svg" alt="Fresh &amp; Green Halal Market"></a></div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="recipe.html">Recipes</a></li>
+            <li><a href="weekly-special.html" class="active">Weekly Specials</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+    <div class="cart-icon"><a href="cart.html"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="3" y1="6" x2="21" y2="6" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 10a4 4 0 01-8 0" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg><span class="cart-count-badge" id="cart-count-badge">0</span></a></div>
+</header>
+
+<!-- COUNTDOWN -->
+<div class="countdown-bar">
+    <p>⏳ Deals reset every Monday time remaining this week:</p>
+    <div class="countdown-digits">
+        <div class="cd-unit"><span class="cd-num" id="cd-d">00</span><span class="cd-label">Days</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit"><span class="cd-num" id="cd-h">00</span><span class="cd-label">Hours</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit"><span class="cd-num" id="cd-m">00</span><span class="cd-label">Mins</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit"><span class="cd-num" id="cd-s">00</span><span class="cd-label">Secs</span></div>
+    </div>
+</div>
+
+<main>
+    <section class="page-hero">
+        <span class="hero-tag">🏷️ Limited Time Deals</span>
+        <h1>Deals of the Week</h1>
+        <p>Hand-picked savings on certified Zabiha Halal products updated every Monday.</p>
+    </section>
+
+    <div class="specials-page">
+        <!-- NEWSLETTER -->
+        <div class="newsletter-bar">
+            <div class="nl-icon">📬</div>
+            <div class="newsletter-bar-text">
+                <h3>Never Miss a Deal!</h3>
+                <p>Subscribe and get weekly specials delivered straight to your inbox every Monday.</p>
+            </div>
+            <form class="newsletter-form" onsubmit="handleSubscribe(event)">
+                <input type="email" placeholder="your@email.com" required>
+                <button type="submit">Subscribe Free</button>
+            </form>
+        </div>
+
+        <div style="margin-bottom:2rem;">
+            <span class="section-label">This Week's Offers</span>
+            <h2 class="section-title" style="margin-bottom:0.3rem;">Grab These Deals <span>Before They're Gone</span></h2>
+            <p class="section-sub" style="margin-bottom:0;">Fresh discounts on meats, groceries, and more.</p>
+        </div>
+
+        <div class="deals-grid">
+            <div class="deal-card">
+                <div class="deal-ribbon">DEAL</div>
+                <div class="deal-card-img"><img src="ground-lamb.jpg" alt="Ground Lamb"></div>
+                <div class="deal-card-body">
+                    <span class="deal-badge">✓ Zabiha Halal</span>
+                    <h3>Fresh Ground Lamb</h3>
+                    <p>Premium quality Zabiha Halal ground lamb perfect for burgers, kofta, and more.</p>
+                    <div class="deal-price-row">
+                        <span class="deal-price-new">$4.99<small style="font-size:0.75rem;font-weight:600;"> /lb</small></span>
+                        <span class="deal-price-old">$6.99/lb</span>
+                        <span class="deal-save">Save $2</span>
+                    </div>
+                    <a href="shop.html" class="deal-cta">Shop Now →</a>
+                </div>
+            </div>
+
+            <div class="deal-card">
+                <div class="deal-ribbon">DEAL</div>
+                <div class="deal-card-img"><img src="rib-eye-steak.jpg" alt="Rib Eye Steak"></div>
+                <div class="deal-card-body">
+                    <span class="deal-badge">✓ Zabiha Halal</span>
+                    <h3>Rib Eye Steak</h3>
+                    <p>Premium Zabiha Halal rib eye steak. Ideal for grilling, pan-searing, or special occasions.</p>
+                    <div class="deal-price-row">
+                        <span class="deal-price-new">$14.99<small style="font-size:0.75rem;font-weight:600;"> /lb</small></span>
+                        <span class="deal-price-old">$18.99/lb</span>
+                        <span class="deal-save">Save $4</span>
+                    </div>
+                    <a href="shop.html" class="deal-cta">Shop Now →</a>
+                </div>
+            </div>
+
+            <div class="deal-card">
+                <div class="deal-ribbon">DEAL</div>
+                <div class="deal-card-img"><img src="chicken-leg.jpg" alt="Chicken Leg Quarters"></div>
+                <div class="deal-card-body">
+                    <span class="deal-badge">✓ Zabiha Halal</span>
+                    <h3>Chicken Leg Quarters</h3>
+                    <p>Our most popular cut juicy, versatile, and perfectly priced for family meals.</p>
+                    <div class="deal-price-row">
+                        <span class="deal-price-new">$2.49<small style="font-size:0.75rem;font-weight:600;"> /lb</small></span>
+                        <span class="deal-price-old">$2.99/lb</span>
+                        <span class="deal-save">Save $0.50</span>
+                    </div>
+                    <a href="shop.html" class="deal-cta">Shop Now →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section"><h3>Fresh & Green Halal Market</h3><p>Your trusted local source for quality Halal products.</p><img src="Cerification.jpg" alt="Certified"></div>
+        <div class="footer-section"><h3>Contact & Hours</h3><p>Sun – Fri: 6:00am – 10:30pm<br>Saturday: 9:00am – 11:00pm</p><p style="margin-top:0.5rem;">3425 S 146th St, Tukwila, WA 98168<br>(206) 241-1511</p></div>
+        <div class="footer-section"><h3>Connect</h3><a href="https://www.facebook.com" target="_blank" rel="noopener"><img src="facebooklogo.png" alt="Facebook" class="social-icon"></a><a href="https://www.instagram.com/" target="_blank" rel="noopener"><img src="instalogo.png" alt="Instagram" class="social-icon"></a></div>
+    </div>
+    <div class="footer-bottom">© 2025 Fresh & Green Halal Market. All Rights Reserved.</div>
+</footer>
+
+<script src="chatbot_widget.js"></script>
+<script>
+    function getCart() { return JSON.parse(localStorage.getItem('cart') || '[]'); }
+    document.addEventListener("DOMContentLoaded", () => {
+        const b = document.getElementById("cart-count-badge");
+        if (b) b.textContent = getCart().reduce((a, i) => a + i.quantity, 0);
+    });
+
+    // Countdown to next Monday
+    function updateCountdown() {
+        const now = new Date();
+        const nextMonday = new Date(now);
+        nextMonday.setDate(now.getDate() + ((1 + 7 - now.getDay()) % 7 || 7));
+        nextMonday.setHours(0, 0, 0, 0);
+        const diff = nextMonday - now;
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        document.getElementById('cd-d').textContent = String(d).padStart(2,'0');
+        document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+        document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+        document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    function handleSubscribe(e) {
+        e.preventDefault();
+        const btn = e.target.querySelector('button');
+        btn.textContent = '✓ Subscribed!';
+        btn.style.background = '#2e7d32';
+        setTimeout(() => { btn.textContent = 'Subscribe Free'; btn.style.background = ''; e.target.reset(); }, 3000);
+    }
+</script>
+</body>
+</html>
