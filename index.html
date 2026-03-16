@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Fresh & Green Halal Market Tukwila, WA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"/>
+    <style>
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: url('freshgreenhalal.jpg') center/cover no-repeat;
+        }
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(10,31,20,0.82) 0%, rgba(27,67,50,0.72) 60%, rgba(45,106,79,0.45) 100%);
+        }
+        .hero-content {
+            position: relative; z-index: 2;
+            text-align: center;
+            max-width: 680px;
+            padding: 3rem 2rem;
+        }
+        .hero-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.12);
+            color: #d4ecd4;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 5px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 1.2rem;
+        }
+        .hero-content h1 {
+            color: #fff;
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+        .hero-content h1 em { color: #d4ecd4; font-style: normal; }
+        .hero-content p {
+            color: rgba(255,255,255,0.78);
+            font-size: 1.08rem;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto; margin-right: auto;
+        }
+        .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .hero-scroll {
+            position: absolute; bottom: 28px; left: 32px;
+            transform: none;
+            z-index: 2; color: rgba(255,255,255,0.45);
+            font-size: 0.68rem; letter-spacing: 0.12em;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+        }
+        .hero-scroll-line {
+            width: 1px; height: 36px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+            animation: scroll-bounce 1.8s ease-in-out infinite;
+        }
+        @keyframes scroll-bounce {
+            0%,100% { transform: scaleY(1); opacity: 0.4; }
+            50% { transform: scaleY(1.3); opacity: 0.8; }
+        }
+
+        /* ── TRUST BAR ── */
+        .trust-bar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+        }
+        .trust-bar-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+        }
+        .trust-item {
+            display: flex; align-items: center; gap: 0.6rem;
+            font-size: 0.88rem; font-weight: 600; color: #444;
+        }
+        .trust-item .icon { font-size: 1.3rem; }
+
+        /* ── WHY CHOOSE US ── */
+        .why-section {
+            background: var(--white);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .reason-card {
+            background: var(--bg);
+            border-radius: var(--radius-lg);
+            padding: 2.2rem 1.6rem;
+            text-align: center;
+            border: 1.5px solid var(--border);
+            transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .reason-card:hover {
+            border-color: var(--green-light);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(27,67,50,0.1);
+            background: var(--white);
+        }
+        .reason-card .reason-icon {
+            font-size: 2.5rem; margin-bottom: 1rem;
+            display: block;
+        }
+        .reason-card img {
+            width: 64px; height: 64px; object-fit: contain;
+            margin: 0 auto 1rem;
+        }
+        .reason-card h3 {
+            font-size: 1rem; font-weight: 700;
+            color: var(--red); margin-bottom: 0.5rem;
+        }
+        .reason-card p { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* ── FEATURED PRODUCTS ── */
+        .featured-section {
+            padding: 5rem 2rem;
+            background: var(--bg);
+            text-align: center;
+        }
+        .featured-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.4rem;
+            max-width: 1100px;
+            margin: 0 auto 2rem;
+        }
+        .featured-card {
+            flex: 0 1 220px;
+        }
+        .featured-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1.5px solid var(--border);
+            transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .featured-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(27,67,50,0.1);
+            border-color: var(--green-light);
+        }
+        .featured-card img {
+            width: 100%; height: 160px; object-fit: contain;
+            background: #faf9f7; padding: 0.8rem;
+        }
+        .featured-card-body { padding: 1rem; text-align: center; }
+        .featured-card-body p { font-weight: 700; font-size: 0.95rem; color: var(--text); margin-bottom: 0.7rem; }
+        .featured-card-body a {
+            display: inline-block;
+            background: var(--green); color: #fff;
+            padding: 6px 16px; border-radius: 8px;
+            font-size: 0.8rem; font-weight: 700;
+            transition: background var(--transition);
+        }
+        .featured-card-body a:hover { background: var(--gold); color: var(--green-dark); }
+
+        /* ── SPECIALS ── */
+        .specials-section {
+            padding: 5rem 2rem;
+            background: var(--white);
+            text-align: center;
+        }
+        .specials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto 2.5rem;
+        }
+        .special-card {
+            background: var(--bg);
+            border-radius: var(--radius-lg);
+            border: 1.5px solid var(--border);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .special-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 32px rgba(27,67,50,0.12);
+            border-color: var(--green-light);
+        }
+        .special-tag {
+            position: absolute; top: 12px; left: 12px;
+            background: var(--red); color: #fff;
+            font-size: 0.72rem; font-weight: 800;
+            letter-spacing: 0.08em;
+            padding: 4px 10px; border-radius: 20px;
+            text-transform: uppercase;
+        }
+        .special-card img {
+            width: 100%; height: 200px; object-fit: cover;
+        }
+        .special-body { padding: 1.3rem; text-align: left; }
+        .special-name { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.3rem; }
+        .special-price {
+            font-size: 1.3rem; font-weight: 800; color: var(--red);
+            margin-bottom: 0.2rem;
+        }
+        .special-price .was {
+            font-size: 0.85rem; font-weight: 500; color: #aaa;
+            text-decoration: line-through; margin-left: 6px;
+        }
+        .special-body a {
+            display: inline-block; margin-top: 0.8rem;
+            background: var(--red); color: #fff;
+            padding: 8px 18px; border-radius: 10px;
+            font-size: 0.84rem; font-weight: 700;
+            transition: background var(--transition);
+        }
+        .special-body a:hover { background: var(--red-dark); }
+
+        /* ── ABOUT STRIP ── */
+        .about-strip {
+            background: linear-gradient(135deg, #0a1f14 0%, #1b4332 100%);
+            padding: 5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+        .about-strip-text { max-width: 520px; }
+        .about-strip-text blockquote {
+            font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+        .about-strip-text blockquote::before { content: '\201C'; color: rgba(212,160,23,0.4); font-size: 3rem; line-height: 0; vertical-align: -0.4em; margin-right: 4px; }
+        .about-strip-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .about-strip-img {
+            width: 300px; border-radius: var(--radius-xl);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            object-fit: cover; height: 260px;
+        }
+
+        /* ── CART NOTIFICATION ── */
+        .cart-notification {
+            position: fixed; top: 24px; right: 24px;
+            background: var(--red); color: #fff;
+            padding: 0.9rem 1.5rem; border-radius: var(--radius-md);
+            font-weight: 700; font-size: 0.95rem;
+            box-shadow: 0 8px 24px rgba(27,67,50,0.25);
+            z-index: 9999; opacity: 0; pointer-events: none;
+            transition: opacity 0.25s, transform 0.25s;
+            transform: translateY(-20px);
+        }
+        .cart-notification.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><a href="index.html"><img src="logo.svg" alt="Fresh &amp; Green Halal Market"></a></div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="recipe.html">Recipes</a></li>
+            <li><a href="weekly-special.html">Weekly Specials</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+    <div class="cart-icon"><a href="cart.html"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="3" y1="6" x2="21" y2="6" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 10a4 4 0 01-8 0" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg><span class="cart-count-badge" id="cart-count-badge">0</span></a></div>
+</header>
+
+<main>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-tag">✦ Tukwila's Halal Market</span>
+            <h1>Your Trusted Source for<br><em>Halal Meats, Spices</em><br>& Essentials</h1>
+            <p>Certified Zabiha Halal products, fresh produce, and community warmth all under one roof.</p>
+            <div class="hero-btns">
+                <a href="shop.html" class="button primary">Shop Now</a>
+                <a href="weekly-special.html" class="button secondary">View Weekly Specials</a>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <span>SCROLL</span>
+            <div class="hero-scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- TRUST BAR -->
+    <div class="trust-bar">
+        <div class="trust-bar-inner">
+            <div class="trust-item"><span class="icon">🕌</span> Certified Zabiha Halal</div>
+            <div class="trust-item"><span class="icon">📍</span> Tukwila, WA</div>
+            <div class="trust-item"><span class="icon">🕐</span> Open 7 Days a Week</div>
+            <div class="trust-item"><span class="icon">👨‍👩‍👧</span> Family-Owned Since 2010</div>
+            <div class="trust-item"><span class="icon">📞</span> (206) 241-1511</div>
+        </div>
+    </div>
+
+    <!-- WHY CHOOSE US -->
+    <section class="why-section">
+        <span class="section-label">Why Choose Us</span>
+        <h2 class="section-title">More Than Just a <span>Grocery Store</span></h2>
+        <p class="section-sub">We're a community hub built on trust, quality, and halal values.</p>
+        <div class="reasons-grid">
+            <div class="reason-card">
+                <img src="halal-icon.png" alt="Halal">
+                <h3>Certified Zabiha Halal Meats</h3>
+                <p>Every cut sourced from trusted, certified suppliers. No compromises.</p>
+            </div>
+            <div class="reason-card">
+                <img src="produce-icon.jpg" alt="Produce">
+                <h3>Fresh Produce & Daily Essentials</h3>
+                <p>Locally sourced when possible, delivered fresh daily.</p>
+            </div>
+            <div class="reason-card">
+                <img src="community-icon.png" alt="Community">
+                <h3>Community-Owned & Operated</h3>
+                <p>Serving our neighbors in Tukwila with passion for over a decade.</p>
+            </div>
+            <div class="reason-card">
+                <span class="reason-icon">🌍</span>
+                <h3>Diverse International Products</h3>
+                <p>Spices, sauces, and pantry staples from around the world.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED PRODUCTS -->
+    <section class="featured-section">
+        <span class="section-label">Featured Products</span>
+        <h2 class="section-title">Customer <span>Favorites</span></h2>
+        <p class="section-sub">Top picks from our shelves this week.</p>
+        <div class="featured-grid">
+            <div class="featured-card">
+                <img src="kcb_sooji_biscuit_1_800x.jpg" alt="KCB Sooji Biscuit">
+                <div class="featured-card-body">
+                    <p>KCB Sooji Biscuit</p>
+                    <a href="shop.html">View in Shop</a>
+                </div>
+            </div>
+            <div class="featured-card">
+                <img src="lipton_yellow_label_tea_bags_1_800x.jpg" alt="Lipton Tea Bags">
+                <div class="featured-card-body">
+                    <p>Lipton Tea Bags</p>
+                    <a href="shop.html">View in Shop</a>
+                </div>
+            </div>
+            <div class="featured-card">
+                <img src="semolina.jpg" alt="Semolina Coarse">
+                <div class="featured-card-body">
+                    <p>Semolina Coarse</p>
+                    <a href="shop.html">View in Shop</a>
+                </div>
+            </div>
+            <div class="featured-card">
+                <img src="parleg_biscut_front_800x.jpg" alt="Parle-G Biscuit">
+                <div class="featured-card-body">
+                    <p>Parle-G Biscuit</p>
+                    <a href="shop.html">View in Shop</a>
+                </div>
+            </div>
+        </div>
+        <a href="shop.html" class="btn btn-primary" style="font-size:1rem;padding:12px 28px;">Browse All Products →</a>
+    </section>
+
+    <!-- WEEKLY SPECIALS -->
+    <section class="specials-section">
+        <span class="section-label">This Week's Deals</span>
+        <h2 class="section-title">Weekly <span>Specials</span></h2>
+        <p class="section-sub">Grab these deals before they're gone!</p>
+        <div class="specials-grid">
+            <div class="special-card">
+                <span class="special-tag">SALE</span>
+                <img src="chicken-leg.jpg" alt="Chicken Leg Quarters">
+                <div class="special-body">
+                    <div class="special-name">Halal Chicken Leg Quarters</div>
+                    <div class="special-price">$2.49<span class="was">/lb was $2.99</span></div>
+                    <a href="shop.html">Shop Now →</a>
+                </div>
+            </div>
+            <div class="special-card">
+                <span class="special-tag">SALE</span>
+                <img src="ground-lamb.jpg" alt="Ground Lamb">
+                <div class="special-body">
+                    <div class="special-name">Ground Lamb (80/20)</div>
+                    <div class="special-price">$4.99<span class="was">/lb was $6.99</span></div>
+                    <a href="shop.html">Shop Now →</a>
+                </div>
+            </div>
+        </div>
+        <a href="weekly-special.html" class="btn btn-outline" style="font-size:1rem;padding:12px 28px;">See All Specials →</a>
+    </section>
+
+    <!-- ABOUT STRIP -->
+    <section class="about-strip">
+        <div class="about-strip-text">
+            <blockquote>Serving Tukwila's Halal needs for over a decade with heart, tradition, and flavor.</blockquote>
+            <div class="about-strip-actions">
+                <a href="about.html" class="btn btn-white">Our Story</a>
+                <a href="contact.html" class="btn btn-outline" style="color:#d4ecd4;border-color:rgba(255,255,255,0.3);">Contact Us</a>
+            </div>
+        </div>
+        <img src="halalstory.png" alt="Fresh & Green Halal Market story" class="about-strip-img">
+    </section>
+</main>
+
+<div class="cart-notification" id="cart-notification"></div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>Fresh & Green Halal Market</h3>
+            <p>Your trusted local source for quality Halal products in Tukwila, WA.</p>
+            <img src="Cerification.jpg" alt="Certified">
+        </div>
+        <div class="footer-section">
+            <h3>Contact & Hours</h3>
+            <p>Sun – Fri: 6:00am – 10:30pm<br>Saturday: 9:00am – 11:00pm</p>
+            <p style="margin-top:0.5rem;">3425 S 146th St, Tukwila, WA 98168</p>
+            <p>(206) 241-1511</p>
+            <p>freshgreenhalalmrkt@gmail.com</p>
+        </div>
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <p><a href="shop.html" style="color:#aaa;">Shop</a></p>
+            <p><a href="recipe.html" style="color:#aaa;">Recipes</a></p>
+            <p><a href="weekly-special.html" style="color:#aaa;">Weekly Specials</a></p>
+            <p><a href="about.html" style="color:#aaa;">About Us</a></p>
+        </div>
+        <div class="footer-section">
+            <h3>Connect</h3>
+            <a href="https://www.facebook.com" target="_blank" rel="noopener"><img src="facebooklogo.png" alt="Facebook" class="social-icon"></a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener"><img src="instalogo.png" alt="Instagram" class="social-icon"></a>
+        </div>
+    </div>
+    <div class="footer-bottom">© 2025 Fresh & Green Halal Market. All Rights Reserved.</div>
+</footer>
+
+<script src="chatbot_widget.js"></script>
+<script>
+    function getCart() { return JSON.parse(localStorage.getItem('cart') || '[]'); }
+    function updateCartCountBadge() {
+        const badge = document.getElementById("cart-count-badge");
+        if (!badge) return;
+        badge.textContent = getCart().reduce((a, i) => a + i.quantity, 0);
+    }
+    document.addEventListener("DOMContentLoaded", updateCartCountBadge);
+</script>
+</body>
+</html>

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart Fresh & Green Halal Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .cart-wrapper {
+            max-width: 1150px;
+            margin: 3rem auto 5rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* LEFT: ITEMS */
+        .cart-panel {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            border: 1.5px solid var(--border);
+            overflow: hidden;
+        }
+        .cart-panel-header {
+            padding: 1.4rem 1.8rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .cart-panel-header h2 { font-size: 1.3rem; font-weight: 800; }
+        .cart-panel-header .item-count {
+            background: var(--red-faint);
+            color: var(--red);
+            border: 1px solid var(--red-light);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* CART TABLE */
+        .cart-items { padding: 0.5rem 0; }
+        .cart-item {
+            display: grid;
+            grid-template-columns: 70px 1fr auto auto auto;
+            gap: 1rem;
+            align-items: center;
+            padding: 1.2rem 1.8rem;
+            border-bottom: 1px solid var(--border);
+            transition: background var(--transition);
+        }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item:hover { background: #faf9f7; }
+        .cart-item-img {
+            width: 70px; height: 70px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+        .cart-item-info {}
+        .cart-item-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 3px; }
+        .cart-item-cat { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+        .cart-item-remove {
+            background: none; border: none;
+            color: #ccc; font-size: 0.82rem;
+            cursor: pointer; margin-top: 4px;
+            font-family: var(--font);
+            transition: color var(--transition);
+            text-decoration: underline;
+            padding: 0;
+        }
+        .cart-item-remove:hover { color: var(--red); }
+        .cart-qty-group {
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .cqb {
+            width: 28px; height: 28px;
+            border-radius: 7px;
+            border: 1.5px solid var(--border);
+            background: var(--white);
+            color: var(--text);
+            font-weight: 800; font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .cqb:hover { border-color: var(--red); color: var(--red); background: var(--red-faint); }
+        .cart-qty-val {
+            min-width: 40px; text-align: center;
+            font-weight: 700; font-size: 0.95rem;
+        }
+        .cart-item-price {
+            font-weight: 800; font-size: 1rem; color: var(--text);
+            text-align: right; white-space: nowrap;
+        }
+        .cart-item-total {
+            font-weight: 800; font-size: 1rem; color: var(--red);
+            text-align: right; white-space: nowrap;
+        }
+
+        /* EMPTY STATE */
+        .cart-empty {
+            padding: 5rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+        .cart-empty .icon { font-size: 3.5rem; margin-bottom: 1rem; }
+        .cart-empty p { margin-bottom: 1.5rem; }
+
+        /* COLUMN HEADERS */
+        .cart-cols {
+            display: grid;
+            grid-template-columns: 70px 1fr auto auto auto;
+            gap: 1rem;
+            padding: 0.6rem 1.8rem;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* RIGHT: SUMMARY */
+        .summary-panel {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            border: 1.5px solid var(--border);
+            overflow: hidden;
+            position: sticky;
+            top: 90px;
+        }
+        .summary-header {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .summary-header h3 { font-size: 1.1rem; font-weight: 800; }
+        .summary-body { padding: 1.4rem 1.5rem; }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.9rem;
+            font-size: 0.92rem;
+        }
+        .summary-row .label { color: var(--text-muted); font-weight: 600; }
+        .summary-row .value { font-weight: 700; }
+        .summary-divider { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+        .summary-total .total-val { color: var(--red); }
+
+
+
+        /* PROMO */
+        .promo-section { margin-bottom: 1.2rem; }
+        .promo-section label { display: block; font-size: 0.78rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 5px; }
+        .promo-row { display: flex; gap: 0.5rem; }
+        .promo-row input {
+            flex: 1; padding: 9px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font); font-size: 0.88rem;
+            outline: none; transition: border-color var(--transition);
+        }
+        .promo-row input:focus { border-color: var(--red); }
+        .promo-row button {
+            padding: 9px 14px;
+            background: var(--red); color: #fff;
+            border: none; border-radius: var(--radius-sm);
+            font-weight: 700; font-size: 0.82rem;
+            font-family: var(--font); cursor: pointer;
+            transition: background var(--transition);
+        }
+        .promo-row button:hover { background: var(--red-dark); }
+
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: var(--red);
+            color: #fff;
+            text-align: center;
+            border-radius: var(--radius-md);
+            font-weight: 800;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+            box-shadow: 0 4px 14px rgba(27,67,50,0.3);
+        }
+        .checkout-btn:hover {
+            background: var(--red-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(27,67,50,0.4);
+        }
+        .checkout-btn.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+        .continue-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--red);
+            font-weight: 600;
+        }
+        .continue-link:hover { text-decoration: underline; }
+
+        /* SECURITY BADGES */
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+        .trust-badge { text-align: center; font-size: 0.72rem; color: #aaa; }
+        .trust-badge .tb-icon { font-size: 1.2rem; display: block; margin-bottom: 2px; }
+
+        @media (max-width: 900px) {
+            .cart-wrapper { grid-template-columns: 1fr; }
+            .summary-panel { position: static; }
+            .cart-item { grid-template-columns: 56px 1fr; gap: 0.7rem; }
+            .cart-qty-group, .cart-item-price, .cart-item-total { grid-column: 2; }
+            .cart-cols { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><a href="index.html"><img src="logo.svg" alt="Fresh &amp; Green Halal Market"></a></div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="recipe.html">Recipes</a></li>
+            <li><a href="weekly-special.html">Weekly Specials</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+    <div class="cart-icon"><a href="cart.html"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="3" y1="6" x2="21" y2="6" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 10a4 4 0 01-8 0" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg><span class="cart-count-badge" id="cart-count-badge">0</span></a></div>
+</header>
+
+<main>
+    <section class="page-hero" style="padding:2.5rem 2rem 2rem;">
+        <h1 style="font-size:clamp(1.6rem,3vw,2.2rem);">Your Shopping Cart</h1>
+        <p>Review your items and proceed to checkout when ready.</p>
+    </section>
+
+    <div class="cart-wrapper">
+        <!-- CART ITEMS -->
+        <div class="cart-panel">
+            <div class="cart-panel-header">
+                <h2>Cart Items</h2>
+                <span class="item-count" id="cart-item-count">0 Items</span>
+            </div>
+            <div class="cart-cols">
+                <span>Product</span>
+                <span></span>
+                <span>Quantity</span>
+                <span>Price</span>
+                <span>Total</span>
+            </div>
+            <div class="cart-items" id="cart-items-container"></div>
+        </div>
+
+        <!-- SUMMARY -->
+        <div class="summary-panel">
+            <div class="summary-header"><h3>Order Summary</h3></div>
+            <div class="summary-body">
+                <div class="summary-row">
+                    <span class="label">Items (<span id="summary-items">0</span>)</span>
+                    <span class="value" id="summary-subtotal">$0.00</span>
+                </div>
+                <div class="summary-row" id="summary-tax-row" style="display:none;">
+                    <span class="label">Tax (10%)</span>
+                    <span class="value" id="summary-tax">$0.00</span>
+                </div>
+                <hr class="summary-divider">
+                <div class="summary-total">
+                    <span>Total</span>
+                    <span class="total-val" id="summary-total">$0.00</span>
+                </div>
+
+                <div class="promo-section">
+                    <label>Promo Code</label>
+                    <div class="promo-row">
+                        <input type="text" id="promo-code" placeholder="Enter code">
+                        <button onclick="applyPromo()">Apply</button>
+                    </div>
+                </div>
+
+                <a href="checkout.html" class="checkout-btn disabled" id="checkout-btn">Proceed to Checkout →</a>
+                <a href="shop.html" class="continue-link">← Continue Shopping</a>
+            </div>
+            <div class="trust-badges">
+                <div class="trust-badge"><span class="tb-icon">🔒</span>Secure</div>
+                <div class="trust-badge"><span class="tb-icon">🕌</span>Halal</div>
+                <div class="trust-badge"><span class="tb-icon">🌿</span>Fresh</div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section"><h3>Fresh & Green Halal Market</h3><p>Your trusted local source for quality Halal products.</p><img src="Cerification.jpg" alt="Certified"></div>
+        <div class="footer-section"><h3>Contact & Hours</h3><p>Sun – Fri: 6:00am – 10:30pm<br>Saturday: 9:00am – 11:00pm</p><p style="margin-top:0.5rem;">3425 S 146th St, Tukwila, WA 98168<br>(206) 241-1511</p></div>
+        <div class="footer-section"><h3>Connect</h3><a href="https://www.facebook.com" target="_blank" rel="noopener"><img src="facebooklogo.png" alt="Facebook" class="social-icon"></a><a href="https://www.instagram.com/" target="_blank" rel="noopener"><img src="instalogo.png" alt="Instagram" class="social-icon"></a></div>
+    </div>
+    <div class="footer-bottom">© 2025 Fresh & Green Halal Market. All Rights Reserved.</div>
+</footer>
+
+<script src="chatbot_widget.js"></script>
+<script>
+    const defaultImg = "product1.jpg";
+
+    function getCart() { return JSON.parse(localStorage.getItem("cart") || "[]"); }
+    function saveCart(c) { localStorage.setItem("cart", JSON.stringify(c)); }
+
+    function updateBadge() {
+        const b = document.getElementById("cart-count-badge");
+        if (b) b.textContent = getCart().reduce((s, i) => s + i.quantity, 0);
+    }
+
+    function renderCart() {
+        const cart = getCart();
+        const container = document.getElementById("cart-items-container");
+        const itemCountEl = document.getElementById("cart-item-count");
+        const summaryItems = document.getElementById("summary-items");
+        container.innerHTML = "";
+
+        if (!cart.length) {
+            container.innerHTML = `<div class="cart-empty"><div class="icon">🛒</div><p>Your cart is empty.</p><a href="shop.html" class="btn btn-primary" style="padding:11px 24px;display:inline-flex;">Browse Products →</a></div>`;
+            itemCountEl.textContent = "0 Items";
+            summaryItems.textContent = "0";
+            updateSummary();
+            updateBadge();
+            document.getElementById("checkout-btn").classList.add("disabled");
+            return;
+        }
+
+        let totalQty = 0;
+        cart.forEach(item => {
+            totalQty += item.quantity;
+            const step = item.unit === "lb" ? 0.25 : 1;
+            const row = document.createElement("div");
+            row.className = "cart-item";
+            row.innerHTML = `
+        <img class="cart-item-img" src="${item.img || defaultImg}" alt="${item.name}">
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-cat">${item.category || 'Halal Product'}</div>
+          <button class="cart-item-remove" data-id="${item.id}">Remove</button>
+        </div>
+        <div class="cart-qty-group">
+          <button class="cqb" data-id="${item.id}" data-step="${step}" data-action="decrease">−</button>
+          <span class="cart-qty-val">${item.quantity}</span>
+          <button class="cqb" data-id="${item.id}" data-step="${step}" data-action="increase">+</button>
+        </div>
+        <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+        <div class="cart-item-total">$${(item.price * item.quantity).toFixed(2)}</div>`;
+            container.appendChild(row);
+        });
+
+        itemCountEl.textContent = `${totalQty} Item${totalQty !== 1 ? 's' : ''}`;
+        summaryItems.textContent = totalQty;
+        updateSummary();
+        updateBadge();
+        document.getElementById("checkout-btn").classList.remove("disabled");
+    }
+
+    function updateSummary() {
+        const cart = getCart();
+        const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+        const tax = subtotal * 0.10;
+        document.getElementById("summary-subtotal").textContent = "$" + subtotal.toFixed(2);
+        document.getElementById("summary-tax-row").style.display = subtotal > 0 ? "" : "none";
+        document.getElementById("summary-tax").textContent = "$" + tax.toFixed(2);
+        document.getElementById("summary-total").textContent = "$" + (subtotal + tax).toFixed(2);
+    }
+
+    function updateItem(id, action, step) {
+        let cart = getCart();
+        const item = cart.find(p => p.id == id);
+        if (!item) return;
+        if (action === "increase") item.quantity = parseFloat((item.quantity + parseFloat(step)).toFixed(2));
+        if (action === "decrease") {
+            item.quantity = parseFloat((item.quantity - parseFloat(step)).toFixed(2));
+            if (item.quantity <= 0) cart = cart.filter(p => p.id != id);
+        }
+        saveCart(cart);
+        renderCart();
+    }
+
+    function removeItem(id) {
+        saveCart(getCart().filter(i => i.id != id));
+        renderCart();
+    }
+
+    document.addEventListener("click", e => {
+        if (e.target.classList.contains("cqb")) updateItem(e.target.dataset.id, e.target.dataset.action, e.target.dataset.step);
+        if (e.target.classList.contains("cart-item-remove")) removeItem(e.target.dataset.id);
+    });
+
+    function applyPromo() {
+        const code = document.getElementById("promo-code").value.trim().toUpperCase();
+        alert(code ? `Code "${code}" no active promotions at this time.` : "Please enter a promo code.");
+    }
+
+    document.addEventListener("DOMContentLoaded", renderCart);
+</script>
+</body>
+</html>

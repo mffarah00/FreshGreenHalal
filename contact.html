@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us Fresh & Green Halal Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .contact-layout {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 2rem 5rem;
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        /* LEFT INFO PANEL */
+        .contact-info h2 {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        .contact-info > p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+        .info-card {
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.1rem 1.3rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color var(--transition), box-shadow var(--transition);
+        }
+        .info-card:hover {
+            border-color: var(--red-light);
+            box-shadow: 0 4px 16px rgba(27,67,50,0.07);
+        }
+        .info-icon {
+            width: 42px; height: 42px;
+            background: var(--red-faint);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            border: 1px solid var(--red-light);
+        }
+        .info-card-text strong { display: block; font-size: 0.78rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 3px; }
+        .info-card-text p { font-size: 0.92rem; color: var(--text); line-height: 1.5; }
+
+        /* MAP PLACEHOLDER */
+        .map-embed {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-top: 1.5rem;
+            border: 1.5px solid var(--border);
+        }
+        .map-embed iframe {
+            width: 100%; height: 200px; display: block; border: none;
+        }
+
+        /* FORM PANEL */
+        .contact-form-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.07);
+            border: 1.5px solid var(--border);
+        }
+        .contact-form-card h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+        }
+        .contact-form-card .subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.8rem;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .form-group { margin-bottom: 1rem; }
+        .form-group:last-of-type { margin-bottom: 0; }
+        .form-group textarea.form-input { resize: vertical; min-height: 110px; }
+        .submit-btn {
+            width: 100%;
+            padding: 13px;
+            background: var(--red);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: var(--font);
+            margin-top: 1.2rem;
+            transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+            box-shadow: 0 4px 14px rgba(27,67,50,0.28);
+        }
+        .submit-btn:hover {
+            background: var(--red-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(27,67,50,0.35);
+        }
+
+        /* QUOTE BAR */
+        .quote-bar {
+            background: var(--red-faint);
+            border-top: 2px solid var(--red-light);
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+        .quote-bar blockquote {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            font-weight: 700;
+            color: var(--red);
+            font-style: italic;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 900px) {
+            .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><a href="index.html"><img src="logo.svg" alt="Fresh &amp; Green Halal Market"></a></div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="recipe.html">Recipes</a></li>
+            <li><a href="weekly-special.html">Weekly Specials</a></li>
+            <li><a href="contact.html" class="active">Contact Us</a></li>
+        </ul>
+    </nav>
+    <div class="cart-icon"><a href="cart.html"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="3" y1="6" x2="21" y2="6" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 10a4 4 0 01-8 0" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg><span class="cart-count-badge" id="cart-count-badge">0</span></a></div>
+</header>
+
+<main>
+    <section class="page-hero">
+        <span class="hero-tag">✦ We're Here to Help</span>
+        <h1>Get in Touch</h1>
+        <p>Questions, feedback, or just want to say hello? We'd love to hear from you.</p>
+    </section>
+
+    <div class="contact-layout">
+        <!-- LEFT: INFO -->
+        <div class="contact-info">
+            <span class="section-label">Contact Details</span>
+            <h2>Visit, Call,<br>or Send a Message</h2>
+            <p>We're open 7 days a week and happy to help with any questions about our products, hours, or anything else.</p>
+
+            <div class="info-card">
+                <div class="info-icon">📞</div>
+                <div class="info-card-text">
+                    <strong>Phone</strong>
+                    <p>(206) 241-1511</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-icon">✉️</div>
+                <div class="info-card-text">
+                    <strong>Email</strong>
+                    <p>freshgreenhalalmrkt@gmail.com</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-icon">📍</div>
+                <div class="info-card-text">
+                    <strong>Address</strong>
+                    <p>3425 S 146th St<br>Tukwila, WA 98168</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-icon">🕐</div>
+                <div class="info-card-text">
+                    <strong>Hours</strong>
+                    <p>Sun – Fri: 6:00am – 10:30pm<br>Saturday: 9:00am – 11:00pm</p>
+                </div>
+            </div>
+
+            <div class="map-embed">
+                <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2695.5823!2d-122.2917!3d47.4624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzQyNSBTIDE0NnRoIFN0LCBUdWt3aWxhLCBXQSA5ODE2OA!5e0!3m2!1sen!2sus!4v1"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- RIGHT: FORM -->
+        <div class="contact-form-card">
+            <h3>Send Us a Message</h3>
+            <p class="subtitle">We typically respond within a few hours during business hours.</p>
+
+            <form action="https://formsubmit.co/mffarah0@gmail.com" method="POST">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_subject" value="New Contact Message Fresh & Green Halal Market">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <input type="text" name="name-first" class="form-input" placeholder="Ahmed" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" name="name-last" class="form-input" placeholder="Hassan" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="email" class="form-input" placeholder="you@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Phone Number <span style="color:#aaa;font-weight:400;">(optional)</span></label>
+                    <input type="tel" name="phone" class="form-input" placeholder="(206) 555-0000">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Subject</label>
+                    <select name="subject" class="form-input">
+                        <option value="General Inquiry">General Inquiry</option>
+                        <option value="Product Question">Product Question</option>
+                        <option value="Order Issue">Order Issue</option>
+                        <option value="Halal Certification">Halal Certification</option>
+                        <option value="Bulk/Wholesale">Bulk / Wholesale</option>
+                        <option value="Feedback">Feedback</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea name="message" class="form-input" rows="5" placeholder="How can we help you?" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Message →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- QUOTE -->
+    <div class="quote-bar">
+        <blockquote>"Visit us in-store or reach out anytime we're dedicated to meeting your Halal shopping needs."</blockquote>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section"><h3>Fresh & Green Halal Market</h3><p>Your trusted local source for quality Halal products.</p><img src="Cerification.jpg" alt="Certified"></div>
+        <div class="footer-section"><h3>Contact & Hours</h3><p>Sun – Fri: 6:00am – 10:30pm<br>Saturday: 9:00am – 11:00pm</p><p style="margin-top:0.5rem;">3425 S 146th St, Tukwila, WA 98168<br>(206) 241-1511</p></div>
+        <div class="footer-section"><h3>Connect</h3><a href="https://www.facebook.com" target="_blank" rel="noopener"><img src="facebooklogo.png" alt="Facebook" class="social-icon"></a><a href="https://www.instagram.com/" target="_blank" rel="noopener"><img src="instalogo.png" alt="Instagram" class="social-icon"></a></div>
+    </div>
+    <div class="footer-bottom">© 2025 Fresh & Green Halal Market. All Rights Reserved.</div>
+</footer>
+
+<script src="chatbot_widget.js"></script>
+<script>
+    function getCart() { return JSON.parse(localStorage.getItem('cart') || '[]'); }
+    document.addEventListener("DOMContentLoaded", () => {
+        const b = document.getElementById("cart-count-badge");
+        if (b) b.textContent = getCart().reduce((a, i) => a + i.quantity, 0);
+    });
+</script>
+</body>
+</html>

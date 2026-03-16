@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout — Fresh & Green Halal Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+
+        /* ── PAGE BG ── */
+        body { background: #f0f5f2; }
+
+        /* ── HERO STRIP ── */
+        .checkout-hero {
+            background: linear-gradient(135deg, #0a1f14 0%, #1b4332 60%, #2d6a4f 100%);
+            padding: 2.2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .checkout-hero::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4a017, transparent);
+        }
+        .checkout-hero-inner {
+            max-width: 1080px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 1rem;
+        }
+        .checkout-hero h1 {
+            color: #fff; font-size: 1.7rem; font-weight: 800; margin: 0;
+        }
+        .checkout-hero h1 span { color: #d4a017; }
+        .checkout-steps {
+            display: flex; gap: 0; align-items: center;
+        }
+        .step {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.45);
+        }
+        .step.active { color: #f5d76e; }
+        .step.done { color: #95d5b2; }
+        .step-num {
+            width: 22px; height: 22px; border-radius: 50%;
+            background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem; font-weight: 800; flex-shrink: 0;
+        }
+        .step.active .step-num { background: #d4a017; border-color: #d4a017; color: #0a1f14; }
+        .step.done .step-num { background: #40916c; border-color: #40916c; color: #fff; }
+        .step-arrow { color: rgba(255,255,255,0.2); margin: 0 8px; font-size: 0.7rem; }
+
+        /* ── LAYOUT ── */
+        .checkout-wrapper {
+            max-width: 1080px;
+            margin: 2.5rem auto 5rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* ── LEFT CARD ── */
+        .checkout-card {
+            background: #fff;
+            border-radius: 20px;
+            border: 1px solid #dde8da;
+            box-shadow: 0 4px 24px rgba(27,67,50,0.07);
+            overflow: hidden;
+        }
+
+        /* ── SECTION BLOCK ── */
+        .co-section {
+            padding: 1.8rem 2rem;
+            border-bottom: 1px solid #eef3ec;
+        }
+        .co-section:last-of-type { border-bottom: none; }
+        .co-section-head {
+            display: flex; align-items: center;
+            gap: 0.9rem; margin-bottom: 1.5rem;
+        }
+        .co-num {
+            width: 32px; height: 32px;
+            background: linear-gradient(135deg, #1b4332, #0a1f14);
+            color: #d4a017;
+            border-radius: 50%; font-size: 0.82rem; font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(27,67,50,0.3);
+        }
+        .co-section-head h3 {
+            font-size: 1rem; font-weight: 800; margin: 0; color: #0f1a0f;
+        }
+        .co-section-head span {
+            font-size: 0.8rem; color: #aaa; font-weight: 400; margin-left: 4px;
+        }
+
+        /* ── FORM ── */
+        .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group { margin-bottom: 1.1rem; }
+        .form-group:last-child { margin-bottom: 0; }
+        .form-group label {
+            display: block; font-size: 0.72rem; font-weight: 700;
+            color: #7a9e7e; text-transform: uppercase;
+            letter-spacing: 0.08em; margin-bottom: 6px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%; padding: 12px 15px;
+            border: 1.5px solid #dde8da; border-radius: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.92rem;
+            color: #0f1a0f; outline: none; background: #fafcfa;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #1b4332;
+            box-shadow: 0 0 0 3px rgba(27,67,50,0.08);
+            background: #fff;
+        }
+        .form-group input.error,
+        .form-group select.error {
+            border-color: #c0392b;
+            box-shadow: 0 0 0 3px rgba(192,57,43,0.07);
+        }
+        .form-group input[readonly] {
+            background: #f0f5f2; color: #7a9e7e; cursor: default;
+            border-color: #dde8da;
+        }
+        .field-error {
+            font-size: 0.74rem; color: #c0392b; font-weight: 600;
+            margin-top: 4px; display: none;
+        }
+        .field-error.show { display: block; }
+
+        /* ── PICKUP CLOSED MSG ── */
+        .pickup-closed {
+            display: none; margin-top: 8px;
+            padding: 12px 16px;
+            background: #fdf8e1; border: 1.5px solid #f5d76e;
+            border-radius: 10px; font-size: 0.83rem; font-weight: 600; color: #7a5c00;
+        }
+
+        /* ── SUBMIT ── */
+        .co-submit { padding: 1.5rem 2rem; background: #f8fbf9; border-top: 1px solid #eef3ec; }
+        .place-order-btn {
+            width: 100%; padding: 15px;
+            background: linear-gradient(135deg, #1b4332 0%, #0a1f14 100%);
+            color: #fff; border: none; border-radius: 12px;
+            font-weight: 800; font-size: 1.02rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer; letter-spacing: 0.02em;
+            transition: all 0.2s;
+            box-shadow: 0 4px 20px rgba(27,67,50,0.35);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .place-order-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #d4a017 0%, #a67c00 100%);
+            color: #0a1f14;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(212,160,23,0.4);
+        }
+        .place-order-btn:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; transform: none; }
+        .btn-arrow { font-size: 1.1rem; transition: transform 0.2s; }
+        .place-order-btn:hover:not(:disabled) .btn-arrow { transform: translateX(4px); }
+        .spinner {
+            width: 18px; height: 18px;
+            border: 2.5px solid rgba(255,255,255,0.3);
+            border-top-color: #fff; border-radius: 50%;
+            animation: spin 0.7s linear infinite; display: none;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .secure-note {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0.5rem; margin-top: 0.9rem;
+            font-size: 0.78rem; color: #7a9e7e; font-weight: 600;
+        }
+
+        /* ── ERROR BANNER ── */
+        .error-banner {
+            margin: 1.2rem 2rem 0;
+            padding: 12px 16px;
+            background: #fdf0f0; border: 1.5px solid #f5c6c6;
+            border-radius: 10px; font-size: 0.87rem;
+            color: #8b1a1a; font-weight: 600; display: none;
+        }
+        .error-banner.show { display: block; }
+
+        /* ── ORDER SUMMARY CARD ── */
+        .order-summary {
+            background: #fff; border-radius: 20px;
+            border: 1px solid #dde8da;
+            box-shadow: 0 4px 24px rgba(27,67,50,0.07);
+            overflow: hidden; position: sticky; top: 100px;
+        }
+        .os-header {
+            background: linear-gradient(135deg, #1b4332, #0a1f14);
+            padding: 1.2rem 1.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .os-header h3 { font-size: 1rem; font-weight: 800; margin: 0; color: #fff; }
+        .os-badge {
+            background: rgba(212,160,23,0.2); color: #f5d76e;
+            border: 1px solid rgba(212,160,23,0.3);
+            font-size: 0.72rem; font-weight: 700;
+            padding: 3px 10px; border-radius: 20px;
+        }
+
+        .os-items { padding: 0.6rem 1.4rem; max-height: 260px; overflow-y: auto; }
+        .os-items::-webkit-scrollbar { width: 3px; }
+        .os-items::-webkit-scrollbar-thumb { background: #c8e6c9; border-radius: 3px; }
+
+        .os-item {
+            display: flex; align-items: center; gap: 0.8rem;
+            padding: 0.7rem 0; border-bottom: 1px solid #f0f5f2;
+        }
+        .os-item:last-child { border-bottom: none; }
+        .os-item-thumb {
+            width: 46px; height: 46px; border-radius: 10px;
+            object-fit: cover; flex-shrink: 0;
+            border: 1px solid #dde8da; background: #f0f5f2;
+        }
+        .os-item-info { flex: 1; min-width: 0; }
+        .os-item-name { font-size: 0.83rem; font-weight: 700; color: #0f1a0f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .os-item-qty { font-size: 0.73rem; color: #7a9e7e; margin-top: 2px; }
+        .os-item-price { font-size: 0.88rem; font-weight: 800; color: #1b4332; white-space: nowrap; }
+
+        .os-divider { height: 1px; background: #eef3ec; margin: 0 1.4rem; }
+
+        .os-totals { padding: 1.1rem 1.5rem; }
+        .os-row {
+            display: flex; justify-content: space-between;
+            font-size: 0.87rem; margin-bottom: 0.6rem;
+        }
+        .os-row .lab { color: #7a9e7e; font-weight: 600; }
+        .os-row .val { font-weight: 700; color: #0f1a0f; }
+        .os-total-row {
+            display: flex; justify-content: space-between;
+            font-size: 1.08rem; font-weight: 800;
+            padding: 0.9rem 1.5rem;
+            background: #f0f5f2; border-top: 1.5px solid #dde8da;
+        }
+        .os-total-row .total-val { color: #d4a017; }
+
+        .os-payment-note {
+            padding: 1rem 1.5rem;
+            background: #fdf8e1; border-top: 1px solid #f5d76e;
+            font-size: 0.78rem; color: #7a5c00;
+            text-align: center; font-weight: 600; line-height: 1.6;
+        }
+
+        /* ── TRUST BADGES ── */
+        .trust-badges {
+            display: flex; gap: 0.8rem; flex-wrap: wrap;
+            padding: 1.2rem 1.5rem; border-top: 1px solid #eef3ec;
+            justify-content: center;
+        }
+        .trust-badge {
+            display: flex; align-items: center; gap: 5px;
+            font-size: 0.72rem; color: #7a9e7e; font-weight: 600;
+        }
+
+        @media (max-width: 900px) {
+            .checkout-wrapper { grid-template-columns: 1fr; }
+            .order-summary { position: static; }
+            .form-row-2 { grid-template-columns: 1fr; }
+            .checkout-steps { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><a href="index.html"><img src="logo.svg" alt="Fresh &amp; Green Halal Market"></a></div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="cart.html">← Cart</a></li>
+        </ul>
+    </nav>
+    <div class="cart-icon">
+        <a href="cart.html">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="3" y1="6" x2="21" y2="6" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 10a4 4 0 01-8 0" stroke="#d4a017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="cart-count-badge" id="cart-count-badge">0</span>
+        </a>
+    </div>
+</header>
+
+<!-- HERO STRIP -->
+<div class="checkout-hero">
+    <div class="checkout-hero-inner">
+        <h1>Secure <span>Checkout</span></h1>
+        <div class="checkout-steps">
+            <div class="step done">
+                <div class="step-num">✓</div>
+                <span>Cart</span>
+            </div>
+            <span class="step-arrow">›</span>
+            <div class="step active">
+                <div class="step-num">2</div>
+                <span>Checkout</span>
+            </div>
+            <span class="step-arrow">›</span>
+            <div class="step">
+                <div class="step-num">3</div>
+                <span>Confirmation</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main>
+    <div class="checkout-wrapper">
+
+        <!-- ── LEFT: FORM ── -->
+        <div class="checkout-card">
+            <div class="error-banner" id="errorBanner"></div>
+
+            <!-- STEP 1: Contact -->
+            <div class="co-section">
+                <div class="co-section-head">
+                    <div class="co-num">1</div>
+                    <h3>Contact Information</h3>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label>First Name *</label>
+                        <input type="text" id="firstName" placeholder="Ahmed" autocomplete="given-name">
+                        <div class="field-error" id="err-firstName">Please enter your first name.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name *</label>
+                        <input type="text" id="lastName" placeholder="Hassan" autocomplete="family-name">
+                        <div class="field-error" id="err-lastName">Please enter your last name.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+                    <div class="field-error" id="err-email">Please enter a valid email address.</div>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label>Phone <span style="color:#bbb;font-weight:400;text-transform:none;">(optional)</span></label>
+                    <input type="tel" id="phone" placeholder="(206) 555-0000" autocomplete="tel">
+                </div>
+            </div>
+
+            <!-- STEP 2: Pickup -->
+            <div class="co-section">
+                <div class="co-section-head">
+                    <div class="co-num">2</div>
+                    <h3>Pickup Details</h3>
+                </div>
+                <div class="form-group">
+                    <label>Pickup Location</label>
+                    <input type="text" value="3425 S 146th St, Tukwila, WA 98168" readonly>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label>Pickup Time Slot *</label>
+                    <select id="pickup">
+                        <option value="">— Select a time —</option>
+                    </select>
+                    <div class="field-error" id="err-pickup">Please select a pickup time.</div>
+                    <div class="pickup-closed" id="pickup-closed-msg">
+                        🕐 No more pickup slots today. We open at 9:00am — check back tomorrow!
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: Notes -->
+            <div class="co-section">
+                <div class="co-section-head">
+                    <div class="co-num">3</div>
+                    <h3>Special Requests <span>(optional)</span></h3>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label>Notes for the Store</label>
+                    <textarea id="notes" rows="3" placeholder="e.g. specific cut, extra packaging, allergies…"></textarea>
+                </div>
+            </div>
+
+            <!-- SUBMIT -->
+            <div class="co-submit">
+                <button class="place-order-btn" id="submitBtn" onclick="submitOrder()">
+                    <span id="btnText">Place Order</span>
+                    <span class="btn-arrow" id="btnArrow">→</span>
+                    <div class="spinner" id="btnSpinner"></div>
+                </button>
+                <p class="secure-note">🔒 Your information is private and secure</p>
+            </div>
+        </div>
+
+        <!-- ── RIGHT: ORDER SUMMARY ── -->
+        <div class="order-summary">
+            <div class="os-header">
+                <h3>Your Order</h3>
+                <span class="os-badge" id="os-count">0 items</span>
+            </div>
+            <div class="os-items" id="os-items"></div>
+            <div class="os-divider"></div>
+            <div class="os-totals">
+                <div class="os-row">
+                    <span class="lab">Subtotal</span>
+                    <span class="val" id="os-subtotal">$0.00</span>
+                </div>
+                <div class="os-row">
+                    <span class="lab">Tax (10%)</span>
+                    <span class="val" id="os-tax">$0.00</span>
+                </div>
+            </div>
+            <div class="os-total-row">
+                <span>Total Due at Pickup</span>
+                <span class="total-val" id="os-total">$0.00</span>
+            </div>
+            <div class="os-payment-note">
+                💵 Payment collected in-store<br>Cash or card accepted at pickup
+            </div>
+            <div class="trust-badges">
+                <div class="trust-badge">✓ Zabiha Halal</div>
+                <div class="trust-badge">✓ Free Pickup</div>
+                <div class="trust-badge">✓ Freshly Packed</div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>Fresh & Green Halal Market</h3>
+            <p>Certified Zabiha Halal · Tukwila, WA</p>
+        </div>
+        <div class="footer-section">
+            <h3>Questions?</h3>
+            <p>(206) 241-1511<br>freshgreenhalalmrkt@gmail.com</p>
+        </div>
+    </div>
+    <div class="footer-bottom">© 2025 Fresh & Green Halal Market. All Rights Reserved.</div>
+</footer>
+
+<script>
+    function getCart() { return JSON.parse(localStorage.getItem("cart") || "[]"); }
+
+    function renderSummary() {
+        const cart = getCart();
+        const container = document.getElementById("os-items");
+        const countEl   = document.getElementById("os-count");
+        container.innerHTML = "";
+
+        if (!cart.length) {
+            container.innerHTML = '<p style="color:#aaa;font-size:0.85rem;padding:1rem 0;text-align:center;">Your cart is empty.</p>';
+            countEl.textContent = "0 items";
+            return;
+        }
+
+        let subtotal = 0, totalQty = 0;
+        cart.forEach(item => {
+            const line = item.price * item.quantity;
+            subtotal += line; totalQty += item.quantity;
+            const row = document.createElement("div");
+            row.className = "os-item";
+            row.innerHTML = `
+        <img class="os-item-thumb" src="${item.img || 'product1.jpg'}" alt="${item.name}" onerror="this.src='product1.jpg'">
+        <div class="os-item-info">
+          <div class="os-item-name">${item.name}</div>
+          <div class="os-item-qty">Qty: ${item.quantity}</div>
+        </div>
+        <div class="os-item-price">$${line.toFixed(2)}</div>`;
+            container.appendChild(row);
+        });
+
+        const tax   = subtotal * 0.10;
+        const total = subtotal + tax;
+        countEl.textContent = `${totalQty} item${totalQty !== 1 ? 's' : ''}`;
+        document.getElementById("os-subtotal").textContent = "$" + subtotal.toFixed(2);
+        document.getElementById("os-tax").textContent      = "$" + tax.toFixed(2);
+        document.getElementById("os-total").textContent    = "$" + total.toFixed(2);
+        const badge = document.getElementById("cart-count-badge");
+        if (badge) badge.textContent = totalQty;
+    }
+
+    ["firstName","lastName","email","pickup"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("input", () => {
+            el.classList.remove("error");
+            const err = document.getElementById("err-" + id);
+            if (err) err.classList.remove("show");
+        });
+    });
+
+    function validateField(id, ok, errId) {
+        const el  = document.getElementById(id);
+        const err = document.getElementById(errId);
+        if (!ok) { el.classList.add("error"); err.classList.add("show"); return false; }
+        el.classList.remove("error"); err.classList.remove("show"); return true;
+    }
+
+    async function submitOrder() {
+        const cart   = getCart();
+        const banner = document.getElementById("errorBanner");
+        function showError(msg) {
+            banner.innerHTML = "⚠️ " + msg;
+            banner.classList.add("show");
+            banner.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+        banner.classList.remove("show");
+        if (!cart.length) { showError("Your cart is empty. Add items before checking out."); return; }
+
+        const firstName = document.getElementById("firstName").value.trim();
+        const lastName  = document.getElementById("lastName").value.trim();
+        const email     = document.getElementById("email").value.trim();
+        const phone     = document.getElementById("phone").value.trim();
+        const pickup    = document.getElementById("pickup").value;
+        const notes     = document.getElementById("notes").value.trim();
+
+        let valid = true;
+        valid = validateField("firstName", firstName.length > 0, "err-firstName") && valid;
+        valid = validateField("lastName",  lastName.length > 0,  "err-lastName")  && valid;
+        valid = validateField("email",     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email), "err-email") && valid;
+        valid = validateField("pickup",    pickup !== "",         "err-pickup")    && valid;
+        if (!valid) { showError("Please fix the highlighted fields and try again."); return; }
+
+        const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+        const tax      = subtotal * 0.10;
+        const total    = subtotal + tax;
+
+        const btn     = document.getElementById("submitBtn");
+        const btnText = document.getElementById("btnText");
+        const btnArr  = document.getElementById("btnArrow");
+        const spinner = document.getElementById("btnSpinner");
+        btn.disabled = true;
+        btnText.textContent = "Placing order…";
+        btnArr.style.display = "none";
+        spinner.style.display = "block";
+
+        try {
+            const res  = await fetch("place_order.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: firstName + " " + lastName, email, phone, pickup, notes, cart, subtotal, tax, total })
+            });
+            const rawText = await res.text();
+            let data;
+            try {
+                data = JSON.parse(rawText);
+            } catch(parseErr) {
+                btn.disabled = false;
+                btnText.textContent = "Place Order";
+                btnArr.style.display = "inline";
+                spinner.style.display = "none";
+                showError("Server returned invalid response. Check that place_order.php is in your project folder. Response: " + rawText.substring(0, 100));
+                return;
+            }
+            if (data.success) {
+                sessionStorage.setItem("lastOrder", JSON.stringify({
+                    orderNumber: data.orderNumber, name: firstName,
+                    email, pickup, subtotal, tax, total, cart
+                }));
+                localStorage.removeItem("cart");
+                window.location.href = "order-confirmation.html";
+            } else {
+                btn.disabled = false;
+                btnText.textContent = "Place Order";
+                btnArr.style.display = "inline";
+                spinner.style.display = "none";
+                showError(data.error || "Something went wrong. Please try again or call (206) 241-1511.");
+            }
+        } catch (e) {
+            btn.disabled = false;
+            btnText.textContent = "Place Order";
+            btnArr.style.display = "inline";
+            spinner.style.display = "none";
+            showError("Could not reach place_order.php. Make sure XAMPP is running and the file exists. (" + e.message + ")");
+        }
+    }
+
+    function buildPickupSlots() {
+        const allSlots = [
+            { start: 9,  label: "9:00am – 10:00am" },
+            { start: 10, label: "10:00am – 11:00am" },
+            { start: 11, label: "11:00am – 12:00pm" },
+            { start: 12, label: "12:00pm – 1:00pm"  },
+            { start: 13, label: "1:00pm – 2:00pm"   },
+            { start: 14, label: "2:00pm – 3:00pm"   },
+            { start: 15, label: "3:00pm – 4:00pm"   },
+            { start: 16, label: "4:00pm – 5:00pm"   },
+            { start: 17, label: "5:00pm – 6:00pm"   },
+            { start: 18, label: "6:00pm – 7:00pm"   },
+            { start: 19, label: "7:00pm – 8:00pm"   },
+        ];
+        const now        = new Date();
+        const nowDecimal = now.getHours() + now.getMinutes() / 60;
+        const BUFFER     = 1;
+        const select     = document.getElementById("pickup");
+        const closedMsg  = document.getElementById("pickup-closed-msg");
+        const available  = allSlots.filter(s => s.start >= nowDecimal + BUFFER);
+
+        if (!available.length) {
+            select.style.display = "none";
+            closedMsg.style.display = "block";
+            const btn = document.getElementById("submitBtn");
+            if (btn) { btn.disabled = true; btn.title = "No pickup slots available today"; }
+            return;
+        }
+        available.forEach((s, i) => {
+            const opt = document.createElement("option");
+            opt.value = s.label;
+            opt.textContent = i === 0 ? s.label + "  (next available)" : s.label;
+            select.appendChild(opt);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        renderSummary();
+        buildPickupSlots();
+    });
+</script>
+</body>
+</html>
