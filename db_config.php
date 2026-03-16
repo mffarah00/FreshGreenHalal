@@ -1,12 +1,12 @@
 <?php
-$host = getenv('DB_HOST') ?: 'localhost';
-$user = getenv('DB_USER') ?: 'root';
-$pass = getenv('DB_PASS') ?: '';
-$db   = getenv('DB_NAME') ?: 'halal_market';
+$host = 'sql3.freesqldatabase.com';
+$user = 'sql3820170';
+$pass = '2heqKFvGs1';
+$db   = 'sql3820170';
 
 $conn = new mysqli($host, $user, $pass, $db);
 
 if ($conn->connect_error) {
-  die('Connection failed: ' . $conn->connect_error);
+    die('Connection failed: ' . $conn->connect_error);
 }
 ?>
