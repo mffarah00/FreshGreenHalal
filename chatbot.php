@@ -6,7 +6,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 
 // ── CONFIG ──────────────────────────────────────────────────────────────────
-$anthropicKey =
+$anthropicKey = getenv('ANTHROPIC_KEY');
 $DEBUG        = false;
 // ── READ INPUT ───────────────────────────────────────────────────────────────
 $raw     = file_get_contents('php://input');
